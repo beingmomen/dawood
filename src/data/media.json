@@ -1,0 +1,51 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "src": "https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "title": "جلسة برلمانية مهمة",
+      "description": "مناقشة قانون الضمان الاجتماعي في مجلس النواب",
+      "date": "2024-01-15",
+      "category": "برلمان"
+    },
+    {
+      "id": 2,
+      "src": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "title": "لقاء صحفي",
+      "description": "مؤتمر صحفي حول الإصلاحات الاقتصادية المقترحة",
+      "date": "2024-01-12",
+      "category": "إعلام"
+    }
+  ],
+  "videos": [
+    {
+      "id": 1,
+      "videoId": "dQw4w9WgXcQ",
+      "title": "كلمة في البرلمان حول التعليم",
+      "description": "كلمة مهمة حول إصلاح منظومة التعليم العالي",
+      "duration": "15:30",
+      "views": "25K",
+      "date": "2024-01-18"
+    },
+    {
+      "id": 2,
+      "videoId": "jNQXAC9IVRw",
+      "title": "مقابلة تلفزيونية حول الإصلاحات",
+      "description": "مقابلة شاملة حول الإصلاحات الاقتصادية والاجتماعية",
+      "duration": "22:45",
+      "views": "18K",
+      "date": "2024-01-15"
+    }
+  ],
+  "documents": [
+    {
+      "id": 1,
+      "title": "تقرير الأداء البرلماني 2023",
+      "description": "تقرير شامل عن الأنشطة والإنجازات البرلمانية لعام 2023",
+      "type": "PDF",
+      "size": "2.5 MB",
+      "downloads": "1.2K",
+      "date": "2024-01-01"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, ArrowLeft, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Carousel from '../ui/Carousel';
-import articlesData from '../../data/articles.json';
+import React from "react";
+import { motion } from "framer-motion";
+import { Calendar, ArrowLeft, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
+import Carousel from "../ui/Carousel";
+import articlesData from "../../data/articles.json";
 
 const LatestArticles = () => {
   const ArticleCard = ({ article, index }) => (
@@ -26,7 +26,7 @@ const LatestArticles = () => {
           </span>
         </div>
       </div>
-      
+
       <div className="p-4 sm:p-6 flex flex-col flex-grow">
         <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
           {article.title}
@@ -34,21 +34,23 @@ const LatestArticles = () => {
         <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed text-sm sm:text-base flex-grow">
           {article.excerpt}
         </p>
-        
+
         <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-4">
           <div className="flex items-center space-x-reverse space-x-2">
             <Calendar className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{new Date(article.date).toLocaleDateString('ar-SA')}</span>
+            <span className="truncate">
+              {new Date(article.date).toLocaleDateString("ar-SA")}
+            </span>
           </div>
           <div className="flex items-center space-x-reverse space-x-2">
             <Eye className="w-4 h-4 flex-shrink-0" />
             <span>{article.views}</span>
           </div>
         </div>
-        
+
         <Link
           to={`/article/${article.id}`}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group mt-auto"
         >
           <span className="text-sm sm:text-base">اقرأ المزيد</span>
@@ -79,7 +81,9 @@ const LatestArticles = () => {
         <div className="mb-8 sm:mb-12">
           <Carousel
             items={articlesData}
-            renderItem={(article, index) => <ArticleCard article={article} index={index} />}
+            renderItem={(article, index) => (
+              <ArticleCard article={article} index={index} />
+            )}
             slidesToShow={1}
             autoplay={true}
             autoplayDelay={5000}
@@ -95,7 +99,7 @@ const LatestArticles = () => {
         >
           <Link
             to="/articles"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="bg-brand text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg inline-block text-sm sm:text-base"
           >
             عرض جميع المقالات

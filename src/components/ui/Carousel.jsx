@@ -10,6 +10,16 @@ const Carousel = ({
   autoplay = false,
   autoplayDelay = 3000,
 }) => {
+  // Responsive slides calculation
+  const getResponsiveSlidesToShow = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 640) return Math.min(slidesToShow, 1);
+      if (window.innerWidth < 1024) return Math.min(slidesToShow, 2);
+    }
+    return slidesToShow;
+  };
+
+  const [responsiveSlidesToShow, setResponsiveSlidesToShow] = useState(getResponsiveSlidesToShow);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'start',
@@ -55,6 +65,18 @@ const Carousel = ({
     return () => clearInterval(interval);
   }, [emblaApi, autoplay, autoplayDelay]);
 
+  // Handle window resize for responsive slides
+  useEffect(() => {
+    const handleResize = () => {
+      setResponsiveSlidesToShow(getResponsiveSlidesToShow());
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, [slidesToShow]);
+
   return (
     <div className="relative overflow-hidden">
       <div className="overflow-hidden" ref={emblaRef}>
@@ -62,8 +84,11 @@ const Carousel = ({
           {items.map((item, index) => (
             <div
               key={index}
-              className="flex-none w-full min-w-0"
-              style={{ minWidth: 0 }}
+              className="flex-none min-w-0"
+              style={{ 
+                minWidth: 0,
+                flex: `0 0 ${100 / responsiveSlidesToShow}%`
+              }}
             >
               <div className="w-full min-w-0 h-full px-2 sm:px-3 lg:px-4">
                 {renderItem(item, index)}

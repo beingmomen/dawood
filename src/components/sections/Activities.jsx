@@ -41,24 +41,24 @@ const Activities = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-16 lg:py-20 bg-background">
+      <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-brand-dark mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark mb-4 sm:mb-6">
             الأنشطة والفعاليات
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             مجموعة متنوعة من الفعاليات والأنشطة التي تهدف إلى خدمة المجتمع وتطوير الوعي العام
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
           {activities.map((activity, index) => (
             <motion.div
               key={activity.id}
@@ -72,7 +72,7 @@ const Activities = () => {
                 <img
                   src={activity.image}
                   alt={activity.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 sm:h-52 object-cover"
                 />
                 <div className="absolute top-4 right-4">
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -85,40 +85,41 @@ const Activities = () => {
                 </div>
               </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
+              <div className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">
                   {activity.title}
                 </h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">
+                <p className="text-gray-600 mb-4 leading-relaxed text-sm sm:text-base">
                   {activity.description}
                 </p>
 
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 text-brand" />
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-center space-x-reverse space-x-3 text-xs sm:text-sm text-gray-500">
+                    <Calendar className="w-4 h-4 text-brand flex-shrink-0" />
                     <span>{new Date(activity.date).toLocaleDateString('ar-SA')}</span>
                   </div>
                   
-                  <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">
-                    <Clock className="w-4 h-4 text-brand" />
+                  <div className="flex items-center space-x-reverse space-x-3 text-xs sm:text-sm text-gray-500">
+                    <Clock className="w-4 h-4 text-brand flex-shrink-0" />
                     <span>{activity.time}</span>
                   </div>
                   
-                  <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">
-                    <MapPin className="w-4 h-4 text-brand" />
-                    <span>{activity.location}</span>
+                  <div className="flex items-center space-x-reverse space-x-3 text-xs sm:text-sm text-gray-500">
+                    <MapPin className="w-4 h-4 text-brand flex-shrink-0" />
+                    <span className="truncate">{activity.location}</span>
                   </div>
                   
-                  <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">
-                    <Users className="w-4 h-4 text-brand" />
+                  <div className="flex items-center space-x-reverse space-x-3 text-xs sm:text-sm text-gray-500">
+                    <Users className="w-4 h-4 text-brand flex-shrink-0" />
                     <span>{activity.attendees} مشارك</span>
                   </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-4 sm:mt-6">
                   <Link
                     to={`/event/${activity.id}`}
-                    className="w-full bg-brand text-white py-3 rounded-lg font-medium hover:bg-brand-dark transition-colors block text-center"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="w-full bg-brand text-white py-2 sm:py-3 rounded-lg font-medium hover:bg-brand-dark transition-colors block text-center text-sm sm:text-base"
                   >
                     {activity.status === 'قادم' ? 'عرض التفاصيل' : 'عرض التفاصيل'}
                   </Link>
@@ -133,9 +134,9 @@ const Activities = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-8 sm:mt-12"
         >
-          <button className="bg-brand text-white px-8 py-4 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <button className="bg-brand text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base">
             عرض جميع الفعاليات
           </button>
         </motion.div>

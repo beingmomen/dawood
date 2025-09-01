@@ -16,9 +16,8 @@ const Carousel = ({
     slidesToScroll: 1,
     direction: 'rtl',
     breakpoints: {
-      '(max-width: 768px)': { 
+      '(max-width: 640px)': { 
         slidesToScroll: 1,
-        containScroll: 'trimSnaps',
       },
       '(max-width: 1024px)': { 
         slidesToScroll: 1,
@@ -59,13 +58,14 @@ const Carousel = ({
   return (
     <div className="relative overflow-hidden">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex w-full" dir="rtl">
+        <div className="flex" dir="rtl">
           {items.map((item, index) => (
             <div
               key={index}
-              className="flex-none w-full min-w-0 max-w-full"
+              className="flex-none w-full min-w-0"
+              style={{ minWidth: 0 }}
             >
-              <div className="w-full min-w-0 h-full px-4">
+              <div className="w-full min-w-0 h-full px-2 sm:px-3 lg:px-4">
                 {renderItem(item, index)}
               </div>
             </div>
@@ -95,12 +95,12 @@ const Carousel = ({
       </motion.button>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 space-x-reverse space-x-2">
+      <div className="flex justify-center mt-4 sm:mt-6 lg:mt-8 space-x-reverse space-x-2 overflow-hidden">
         {Array.from({ length: items.length }).map((_, index) => (
           <button
             key={index}
             onClick={() => emblaApi && emblaApi.scrollTo(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 flex-shrink-0 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 flex-shrink-0 ${
               index === selectedIndex
                 ? 'bg-brand scale-125'
                 : 'bg-gray-300 hover:bg-gray-400'

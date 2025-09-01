@@ -16,12 +16,8 @@ const Carousel = ({
     slidesToScroll: 1,
     direction: 'rtl',
     breakpoints: {
-      '(max-width: 640px)': { 
-        slidesToScroll: 1,
-      },
-      '(max-width: 1024px)': { 
-        slidesToScroll: 1,
-      },
+      '(max-width: 640px)': { slidesToScroll: 1 },
+      '(max-width: 1024px)': { slidesToScroll: 1 },
     },
   });
 
@@ -96,12 +92,12 @@ const Carousel = ({
 
       {/* Dots Indicator */}
       <div className="flex justify-center mt-4 sm:mt-6 lg:mt-8 space-x-reverse space-x-2 overflow-hidden">
-        {Array.from({ length: items.length }).map((_, index) => (
+        {Array.from({ length: Math.ceil(items.length / slidesToShow) }).map((_, index) => (
           <button
             key={index}
             onClick={() => emblaApi && emblaApi.scrollTo(index)}
             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 flex-shrink-0 ${
-              index === selectedIndex
+              index === Math.floor(selectedIndex / slidesToShow)
                 ? 'bg-brand scale-125'
                 : 'bg-gray-300 hover:bg-gray-400'
             }`}

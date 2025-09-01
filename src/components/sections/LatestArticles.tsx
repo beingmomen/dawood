@@ -1,9 +1,9 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Calendar, ArrowLeft, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
-import Carousel from "../ui/Carousel";
-import articlesData from "../../data/articles.json";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, ArrowLeft, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import Carousel from '../ui/Carousel';
+import articlesData from '../../data/articles.json';
 
 const LatestArticles = () => {
   const ArticleCard = ({ article, index }: { article: any; index: number }) => (
@@ -26,7 +26,7 @@ const LatestArticles = () => {
           </span>
         </div>
       </div>
-
+      
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
           {article.title}
@@ -34,18 +34,18 @@ const LatestArticles = () => {
         <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
           {article.excerpt}
         </p>
-
+        
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <div className="flex items-center space-x-reverse space-x-2">
             <Calendar className="w-4 h-4" />
-            <span>{new Date(article.date).toLocaleDateString("ar-SA")}</span>
+            <span>{new Date(article.date).toLocaleDateString('ar-SA')}</span>
           </div>
           <div className="flex items-center space-x-reverse space-x-2">
             <Eye className="w-4 h-4" />
             <span>{article.views}</span>
           </div>
         </div>
-
+        
         <Link
           to={`/article/${article.id}`}
           className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"
@@ -77,9 +77,7 @@ const LatestArticles = () => {
 
         <Carousel
           items={articlesData}
-          renderItem={(article, index) => (
-            <ArticleCard article={article} index={index} />
-          )}
+          renderItem={(article, index) => <ArticleCard article={article} index={index} />}
           slidesToShow={3}
           autoplay={true}
           autoplayDelay={5000}

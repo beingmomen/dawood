@@ -62,10 +62,10 @@ const Carousel = ({
           {items.map((item, index) => (
             <div
               key={index}
-              className="flex-none w-full sm:w-1/2 lg:w-1/3 px-2 sm:px-3 lg:px-4 min-w-0"
+              className="flex-none w-full min-w-0"
               style={{ minWidth: 0 }}
             >
-              <div className="w-full min-w-0 h-full">
+              <div className="w-full min-w-0 h-full px-2 sm:px-3 lg:px-4">
                 {renderItem(item, index)}
               </div>
             </div>

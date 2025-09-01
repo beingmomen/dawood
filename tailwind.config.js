@@ -1,6 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+import { defineConfig } from '@tailwindcss/vite'
+
+export default defineConfig({
+  content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,7 @@ export default {
         'fade-in': 'fadeIn 0.6s ease-out',
         'slide-up': 'slideUp 0.8s ease-out',
         'float': 'float 3s ease-in-out infinite',
+        'bounce': 'bounce 1s infinite',
       },
       keyframes: {
         fadeIn: {
@@ -32,6 +34,16 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
         },
+        bounce: {
+          '0%, 100%': { 
+            transform: 'translateY(-25%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+          },
+          '50%': { 
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+          },
+        },
       },
       screens: {
         'xs': '475px',
@@ -42,5 +54,4 @@ export default {
       },
     },
   },
-  plugins: [],
-};
+})

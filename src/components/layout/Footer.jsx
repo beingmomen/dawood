@@ -37,8 +37,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer id="contact" className="bg-brand-dark text-white overflow-hidden">
-      <div className="container mx-auto px-4 py-16 max-w-full">
+    <footer id="contact" className="bg-brand-dark text-white">
+      <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <motion.div
@@ -46,7 +46,7 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="lg:col-span-2 min-w-0"
+            className="lg:col-span-2"
           >
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">محمد عبدالعليم داود</h3>
@@ -59,16 +59,16 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-reverse space-x-3 min-w-0">
-                <Mail className="w-5 h-5 text-white/60 flex-shrink-0" />
-                <span className="text-white/80 truncate">mohammed.journalist@email.com</span>
+              <div className="flex items-center space-x-reverse space-x-3">
+                <Mail className="w-5 h-5 text-white/60" />
+                <span className="text-white/80">mohammed.journalist@email.com</span>
               </div>
-              <div className="flex items-center space-x-reverse space-x-3 min-w-0">
-                <Phone className="w-5 h-5 text-white/60 flex-shrink-0" />
+              <div className="flex items-center space-x-reverse space-x-3">
+                <Phone className="w-5 h-5 text-white/60" />
                 <span className="text-white/80">+20 10 123 4567</span>
               </div>
-              <div className="flex items-center space-x-reverse space-x-3 min-w-0">
-                <MapPin className="w-5 h-5 text-white/60 flex-shrink-0" />
+              <div className="flex items-center space-x-reverse space-x-3">
+                <MapPin className="w-5 h-5 text-white/60" />
                 <span className="text-white/80">القاهرة، جمهورية مصر العربية</span>
               </div>
             </div>
@@ -80,7 +80,6 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="min-w-0"
           >
             <h4 className="text-xl font-bold mb-6">روابط سريعة</h4>
             <ul className="space-y-3">
@@ -103,7 +102,6 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="min-w-0"
           >
             <h4 className="text-xl font-bold mb-6">معلومات قانونية</h4>
             <ul className="space-y-3 mb-8">
@@ -122,14 +120,14 @@ const Footer = () => {
             {/* Social Links */}
             <div>
               <h5 className="font-bold mb-4">تابعني على</h5>
-              <div className="flex space-x-reverse space-x-3 flex-wrap">
+              <div className="flex space-x-reverse space-x-3">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={index}
                     href={social.href}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors duration-200 flex-shrink-0"
+                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -148,9 +146,9 @@ const Footer = () => {
           viewport={{ once: true }}
           className="border-t border-white/20 mt-12 pt-8 text-center"
         >
-          <p className="text-white/60 flex items-center justify-center space-x-reverse space-x-2 flex-wrap text-sm">
+          <p className="text-white/60 flex items-center justify-center space-x-reverse space-x-2">
             <span>© 2024 محمد عبدالعليم داود. جميع الحقوق محفوظة. صُنع بـ</span>
-            <Heart className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <Heart className="w-4 h-4 text-red-400" />
             <span>في جمهورية مصر العربية</span>
           </p>
         </motion.div>

@@ -52,18 +52,16 @@ const Carousel = ({
   }, [emblaApi, autoplay, autoplayDelay]);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex" dir="rtl">
           {items.map((item, index) => (
             <div
               key={index}
-              className="flex-none w-full md:w-1/2 lg:w-1/3 px-2 sm:px-4 min-w-0"
+              className={`flex-none w-full md:w-1/2 lg:w-1/3 px-4`}
               style={{ minWidth: 0 }}
             >
-              <div className="w-full min-w-0">
-                {renderItem(item, index)}
-              </div>
+              {renderItem(item, index)}
             </div>
           ))}
         </div>
@@ -75,9 +73,9 @@ const Carousel = ({
         whileTap={{ scale: 0.9 }}
         onClick={scrollNext}
         disabled={!nextBtnEnabled}
-        className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+        className="absolute top-1/2 -translate-y-1/2 right-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
       >
-        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+        <ChevronRight className="w-6 h-6" />
       </motion.button>
 
       <motion.button
@@ -85,18 +83,18 @@ const Carousel = ({
         whileTap={{ scale: 0.9 }}
         onClick={scrollPrev}
         disabled={!prevBtnEnabled}
-        className="absolute top-1/2 -translate-y-1/2 left-2 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+        className="absolute top-1/2 -translate-y-1/2 left-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
       >
-        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+        <ChevronLeft className="w-6 h-6" />
       </motion.button>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 sm:mt-8 space-x-reverse space-x-2 overflow-hidden">
+      <div className="flex justify-center mt-8 space-x-reverse space-x-2">
         {Array.from({ length: Math.ceil(items.length / slidesToShow) }).map((_, index) => (
           <button
             key={index}
             onClick={() => emblaApi && emblaApi.scrollTo(index)}
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 flex-shrink-0 ${
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
               index === Math.floor(selectedIndex / slidesToShow)
                 ? 'bg-brand scale-125'
                 : 'bg-gray-300 hover:bg-gray-400'

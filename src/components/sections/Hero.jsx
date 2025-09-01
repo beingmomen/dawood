@@ -17,7 +17,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24 md:pt-20">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand to-brand-light"></div>
       <div className="absolute inset-0 bg-black/20"></div>

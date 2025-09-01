@@ -12,7 +12,7 @@ const LatestArticles = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col mx-auto max-w-sm w-full"
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full"
     >
       <div className="relative overflow-hidden">
         <img
@@ -27,7 +27,7 @@ const LatestArticles = () => {
         </div>
       </div>
       
-      <div className="p-4 sm:p-6 flex flex-col flex-grow">
+      <div className="p-4 sm:p-6 flex flex-col h-full">
         <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
           {article.title}
         </h3>
@@ -80,7 +80,7 @@ const LatestArticles = () => {
           <Carousel
             items={articlesData}
             renderItem={(article, index) => <ArticleCard article={article} index={index} />}
-            slidesToShow={1}
+            slidesToShow={3}
             autoplay={true}
             autoplayDelay={5000}
           />

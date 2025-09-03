@@ -82,7 +82,7 @@ const Achievements = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {achievements.map((achievement, index) => (
+          {achievements.map((achievement, index) => {
             const IconComponent = getIcon(achievement.iconName);
             const colorClass = getColor(achievement.colorName);
             

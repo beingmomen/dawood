@@ -47,4 +47,3 @@ export const getIcon = (iconName) => {
 // دالة للحصول على اللون بناءً على الاسم
 export const getColor = (colorName) => {
   return colorMap[colorName] || 'bg-gray-500'; // رمادي كقيمة افتراضية
-};

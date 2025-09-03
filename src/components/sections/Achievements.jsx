@@ -83,11 +83,10 @@ const Achievements = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {achievements.map((achievement, index) => (
-            {(() => {
-              const IconComponent = getIcon(achievement.iconName);
-              const colorClass = getColor(achievement.colorName);
-              
-              return (
+            const IconComponent = getIcon(achievement.iconName);
+            const colorClass = getColor(achievement.colorName);
+            
+            return (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -106,9 +105,8 @@ const Achievements = () => {
                 <p className="text-gray-600 leading-relaxed">{achievement.description}</p>
               </div>
             </motion.div>
-              );
-            })()}
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

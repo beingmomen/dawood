@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, FileText, ArrowLeft, Search, Filter } from 'lucide-react';
+import { Calendar, FileText, ArrowLeft, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PressStatementsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
-
-  const categories = ['الكل', 'تعليم', 'بيئة', 'اقتصاد', 'صحة', 'حقوق إنسان', 'سياسة'];
 
   const statements = [
     {
@@ -189,8 +186,7 @@ const PressStatementsPage = () => {
   const filteredStatements = statements.filter(statement => {
     const matchesSearch = statement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          statement.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'الكل' || statement.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
   return (
@@ -218,32 +214,15 @@ const PressStatementsPage = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white rounded-2xl p-6 shadow-lg mb-12"
         >
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Search */}
-            <div className="flex-1 relative">
-              <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="البحث في البيانات الصحفية..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
-              />
-            </div>
-
-            {/* Categories */}
-            <div className="flex items-center space-x-reverse space-x-2">
-              <Filter className="text-gray-400 w-5 h-5" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-            </div>
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="البحث في البيانات الصحفية..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
+            />
           </div>
         </motion.div>
 

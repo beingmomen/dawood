@@ -252,7 +252,7 @@ const PressStatementsPage = () => {
                       </span>
                       <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
                         <Calendar className="w-4 h-4" />
-                        <span>{new Date(statement.date).toLocaleDateString('ar-SA')}</span>
+                        <span>{new Date(statement.date).toLocaleDateString('ar-EG')}</span>
                       </div>
                     </div>
                   </div>
@@ -266,7 +266,7 @@ const PressStatementsPage = () => {
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-reverse space-x-6 text-sm text-gray-500">
+                    <div className="flex items-center space-x-reverse space-x-6 text-sm text-gray-500 hide-press-stats">
                       <span>{statement.views} مشاهدة</span>
                       <span>{statement.shares} مشاركة</span>
                     </div>

@@ -96,7 +96,7 @@ const Activities = () => {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">
                     <Calendar className="w-4 h-4 text-brand" />
-                    <span>{new Date(activity.date).toLocaleDateString('ar-SA')}</span>
+                    <span>{new Date(activity.date).toLocaleDateString('ar-EG')}</span>
                   </div>
                   
                   <div className="flex items-center space-x-reverse space-x-3 text-sm text-gray-500">

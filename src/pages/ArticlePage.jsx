@@ -69,7 +69,7 @@ const ArticlePage = () => {
                   </div>
                   <div className="flex items-center space-x-reverse space-x-2">
                     <Calendar className="w-5 h-5" />
-                    <span>{new Date(article.date).toLocaleDateString('ar-SA')}</span>
+                    <span>{new Date(article.date).toLocaleDateString('ar-EG')}</span>
                   </div>
                   <div className="flex items-center space-x-reverse space-x-2 hide-read-time">
                     <Clock className="w-5 h-5" />
@@ -172,7 +172,7 @@ const ArticlePage = () => {
                         {relatedArticle.title}
                       </h4>
                       <p className="text-sm text-gray-500 mt-1">
-                        {new Date(relatedArticle.date).toLocaleDateString('ar-SA')}
+                        {new Date(relatedArticle.date).toLocaleDateString('ar-EG')}
                       </p>
                     </div>
                   </Link>

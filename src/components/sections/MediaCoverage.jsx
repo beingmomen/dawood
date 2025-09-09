@@ -96,7 +96,7 @@ const MediaCoverage = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
                     <Calendar className="w-4 h-4" />
-                    <span>{new Date(item.date).toLocaleDateString('ar-SA')}</span>
+                    <span>{new Date(item.date).toLocaleDateString('ar-EG')}</span>
                   </div>
                 </div>
 

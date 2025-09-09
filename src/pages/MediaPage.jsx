@@ -293,7 +293,7 @@ const MediaPage = () => {
                         </span>
                         <h3 className="font-bold mb-1 text-sm">{image.title}</h3>
                         <p className="text-xs text-white/80 line-clamp-2">{image.description}</p>
-                        <p className="text-xs text-white/60 mt-1">{new Date(image.date).toLocaleDateString('ar-SA')}</p>
+                        <p className="text-xs text-white/60 mt-1">{new Date(image.date).toLocaleDateString('ar-EG')}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -331,7 +331,7 @@ const MediaPage = () => {
                         </div>
                         <div className="flex items-center space-x-reverse space-x-4">
                           <span>{video.duration}</span>
-                          <span>{new Date(video.date).toLocaleDateString('ar-SA')}</span>
+                          <span>{new Date(video.date).toLocaleDateString('ar-EG')}</span>
                         </div>
                       </div>
                     </div>
@@ -362,7 +362,7 @@ const MediaPage = () => {
                             <span>{doc.type}</span>
                             <span>{doc.size}</span>
                           </div>
-                          <span>{new Date(doc.date).toLocaleDateString('ar-SA')}</span>
+                          <span>{new Date(doc.date).toLocaleDateString('ar-EG')}</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">

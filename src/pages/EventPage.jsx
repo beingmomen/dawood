@@ -146,7 +146,7 @@ const EventPage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center space-x-reverse space-x-3">
                       <Calendar className="w-5 h-5 text-brand" />
-                      <span className="text-gray-700">{new Date(event.date).toLocaleDateString('ar-SA')}</span>
+                      <span className="text-gray-700">{new Date(event.date).toLocaleDateString('ar-EG')}</span>
                     </div>
                     <div className="flex items-center space-x-reverse space-x-3">
                       <Clock className="w-5 h-5 text-brand" />
@@ -281,7 +281,7 @@ const EventPage = () => {
                         {relatedEvent.title}
                       </h4>
                       <p className="text-sm text-gray-500 mt-1">
-                        {new Date(relatedEvent.date).toLocaleDateString('ar-SA')}
+                        {new Date(relatedEvent.date).toLocaleDateString('ar-EG')}
                       </p>
                     </div>
                   </Link>

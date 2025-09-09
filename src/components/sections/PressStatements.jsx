@@ -75,7 +75,7 @@ const PressStatements = () => {
                       </span>
                       <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
                         <Calendar className="w-4 h-4" />
-                        <span>{new Date(statement.date).toLocaleDateString('ar-SA')}</span>
+                        <span>{new Date(statement.date).toLocaleDateString('ar-EG')}</span>
                       </div>
                     </div>
                   </div>

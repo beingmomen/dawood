@@ -15,7 +15,7 @@ const HomePage = () => {
       <LatestArticles />
       <MediaTabs />
       <Activities />
-      <MediaCoverage />
+      {/* <MediaCoverage /> */}
       <PressStatements />
     </>
   );

@@ -121,3 +121,7 @@ a:focus {
 .hide-activities-section {
   display: none !important;
 }
+
+.hide-media-coverage-section {
+  display: none !important;
+}

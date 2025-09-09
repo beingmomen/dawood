@@ -292,10 +292,13 @@ const PressStatementsPage = () => {
                       <span>{statement.shares} مشاركة</span>
                     </div>
                     
-                    <button className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group">
+                    <Link
+                      to={`/press-statement/${statement.id}`}
+                      className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"
+                    >
                       <span>قراءة البيان كاملاً</span>
                       <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

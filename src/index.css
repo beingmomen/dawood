@@ -104,3 +104,20 @@ a:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* إخفاء العناصر المحددة - يمكن إظهارها مرة أخرى بحذف هذه الكلاسات */
+.hide-views {
+  display: none !important;
+}
+
+.hide-read-time {
+  display: none !important;
+}
+
+.hide-documents-section {
+  display: none !important;
+}
+
+.hide-activities-section {
+  display: none !important;
+}

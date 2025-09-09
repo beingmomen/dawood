@@ -14,7 +14,9 @@ const HomePage = () => {
       <Achievements />
       <LatestArticles />
       <MediaTabs />
-      <Activities />
+      <div className="hide-activities-section">
+        <Activities />
+      </div>
       <MediaCoverage />
       <PressStatements />
     </>

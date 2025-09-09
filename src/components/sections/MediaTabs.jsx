@@ -138,6 +138,8 @@ const MediaTabs = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-reverse space-x-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  tab.id === 'documents' ? 'hide-documents-section' : ''
+                } ${
                   activeTab === tab.id
                     ? 'bg-brand text-white shadow-lg'
                     : 'text-gray-600 hover:text-brand'
@@ -221,7 +223,7 @@ const MediaTabs = () => {
             )}
 
             {activeTab === 'documents' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 hide-documents-section">
                 {mediaData.documents.map((doc, index) => (
                   <motion.div
                     key={doc.id}

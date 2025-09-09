@@ -40,7 +40,7 @@ const LatestArticles = () => {
             <Calendar className="w-4 h-4" />
             <span>{new Date(article.date).toLocaleDateString('ar-SA')}</span>
           </div>
-          <div className="flex items-center space-x-reverse space-x-2">
+          <div className="flex items-center space-x-reverse space-x-2 hide-views">
             <Eye className="w-4 h-4" />
             <span>{article.views}</span>
           </div>

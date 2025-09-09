@@ -108,11 +108,11 @@ const AllArticlesPage = () => {
                     <span>{new Date(article.date).toLocaleDateString('ar-SA')}</span>
                   </div>
                   <div className="flex items-center space-x-reverse space-x-4">
-                    <div className="flex items-center space-x-reverse space-x-1">
+                    <div className="flex items-center space-x-reverse space-x-1 hide-views">
                       <Eye className="w-4 h-4" />
                       <span>{article.views}</span>
                     </div>
-                    <span>{article.readTime}</span>
+                    <span className="hide-read-time">{article.readTime}</span>
                   </div>
                 </div>
                 

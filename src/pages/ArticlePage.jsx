@@ -71,11 +71,11 @@ const ArticlePage = () => {
                     <Calendar className="w-5 h-5" />
                     <span>{new Date(article.date).toLocaleDateString('ar-SA')}</span>
                   </div>
-                  <div className="flex items-center space-x-reverse space-x-2">
+                  <div className="flex items-center space-x-reverse space-x-2 hide-read-time">
                     <Clock className="w-5 h-5" />
                     <span>{article.readTime}</span>
                   </div>
-                  <div className="flex items-center space-x-reverse space-x-2">
+                  <div className="flex items-center space-x-reverse space-x-2 hide-views">
                     <Eye className="w-5 h-5" />
                     <span>{article.views}</span>
                   </div>

@@ -6,6 +6,7 @@
 +import Link from 'next/link';
 
  const PressStatements = () => {
+ }
 @@ .. @@
                    <Link
 -                    to={`/press-statement/${statement.id}`}

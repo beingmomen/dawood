@@ -9,6 +9,7 @@
 +import articlesData from '../data/articles.json';
 
  const LatestArticles = () => {
+ }
 @@ .. @@
          <Link
 -          to={`/article/${article.id}`}

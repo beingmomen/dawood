@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Award, Users, FileText } from 'lucide-react';
+import { usePersonalInfo } from '../../hooks/useApi';
 
 const Hero = () => {
+  const { data: personalInfo } = usePersonalInfo();
+
   const stats = [
     { icon: FileText, value: '150+', label: 'مقال منشور' },
     { icon: Award, value: '25+', label: 'جائزة وتكريم' },
@@ -40,7 +43,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold mb-6"
           >
-            محمد عبدالعليم داود
+            {personalInfo?.name || 'محمد عبدالعليم داود'}
           </motion.h1>
 
           <motion.p
@@ -49,9 +52,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed"
           >
-            صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين
+            {personalInfo?.title || 'صحفي وعضو برلمان'}
             <br />
-            أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة
+            {personalInfo?.summary?.split('.')[0] || 'أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة'}
           </motion.p>
 
           <motion.div

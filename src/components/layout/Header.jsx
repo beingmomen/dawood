@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, FileText, User, Camera, Phone, Home } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { usePersonalInfo } from '../../hooks/useApi';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { data: personalInfo } = usePersonalInfo();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,12 +40,12 @@ const Header = () => {
               <h1 className={`text-lg font-bold transition-colors duration-300 ${
                 isScrolled || !isHomePage ? 'text-brand-dark' : 'text-white'
               }`}>
-                محمد عبدالعليم داود
+                {personalInfo?.name || 'محمد عبدالعليم داود'}
               </h1>
               <p className={`text-sm transition-colors duration-300 ${
                 isScrolled || !isHomePage ? 'text-gray-600' : 'text-white/80'
               }`}>
-                صحفي وعضو برلمان
+                {personalInfo?.title || 'صحفي وعضو برلمان'}
               </p>
             </div>
           </Link>

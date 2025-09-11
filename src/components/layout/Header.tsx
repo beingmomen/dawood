@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, FileText, User, Camera, Phone, Home } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { usePersonalInfo } from '../../hooks/useApi';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { data: personalInfo } = usePersonalInfo();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,18 +37,20 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-reverse space-x-3">
             <div className="w-10 h-10 bg-brand rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">م</span>
+              <span className="text-white font-bold text-xl">
+                {personalInfo?.name?.charAt(0) || 'م'}
+              </span>
             </div>
             <div>
               <h1 className={`text-lg font-bold transition-colors duration-300 ${
                 isScrolled || !isHomePage ? 'text-brand-dark' : 'text-white'
               }`}>
-                محمد عبدالعليم داود
+                {personalInfo?.name || 'محمد عبدالعليم داود'}
               </h1>
               <p className={`text-sm transition-colors duration-300 ${
                 isScrolled || !isHomePage ? 'text-gray-600' : 'text-white/80'
               }`}>
-                صحفي وعضو برلمان
+                {personalInfo?.title || 'صحفي وعضو برلمان'}
               </p>
             </div>
           </Link>

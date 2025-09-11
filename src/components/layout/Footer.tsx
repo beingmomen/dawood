@@ -12,8 +12,11 @@ import {
   Heart
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePersonalInfo } from '../../hooks/useApi';
 
 const Footer = () => {
+  const { data: personalInfo } = usePersonalInfo();
+
   const socialLinks = [
     { icon: Facebook, href: '#', label: 'فيسبوك' },
     { icon: Twitter, href: '#', label: 'تويتر' },
@@ -50,31 +53,33 @@ const Footer = () => {
           >
             <div className="flex items-center space-x-reverse space-x-3 mb-6">
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                <span className="text-brand-dark font-bold text-xl">م</span>
+                <span className="text-brand-dark font-bold text-xl">
+                  {personalInfo?.name?.charAt(0) || 'م'}
+                </span>
               </div>
               <div>
-                <h3 className="text-2xl font-bold">محمد عبدالعليم داود</h3>
-                <p className="text-white/80">صحفي وعضو برلمان</p>
+                <h3 className="text-2xl font-bold">{personalInfo?.name || 'محمد عبدالعليم داود'}</h3>
+                <p className="text-white/80">{personalInfo?.title || 'صحفي وعضو برلمان'}</p>
               </div>
             </div>
             
             <p className="text-white/80 leading-relaxed mb-6 max-w-md">
-              صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز.
+              {personalInfo?.summary || 'صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز.'}
             </p>
 
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-reverse space-x-3">
                 <Mail className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">mohammed.journalist@email.com</span>
+                <span className="text-white/80">{personalInfo?.email || 'mohammed.journalist@email.com'}</span>
               </div>
               <div className="flex items-center space-x-reverse space-x-3">
                 <Phone className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">+20 10 123 4567</span>
+                <span className="text-white/80">{personalInfo?.phone || '+20 10 123 4567'}</span>
               </div>
               <div className="flex items-center space-x-reverse space-x-3">
                 <MapPin className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">القاهرة، جمهورية مصر العربية</span>
+                <span className="text-white/80">{personalInfo?.location || 'القاهرة، جمهورية مصر العربية'}</span>
               </div>
             </div>
           </motion.div>

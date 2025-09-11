@@ -4,8 +4,6 @@ import {
   User, 
   GraduationCap, 
   Briefcase, 
-  Award, 
-  Languages, 
   Phone, 
   Mail, 
   MapPin,
@@ -74,26 +72,6 @@ const CVPage = () => {
               </button>
             </motion.div>
 
-            {/* Languages */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
-            >
-              <h3 className="text-xl font-bold text-brand-dark mb-6 flex items-center space-x-reverse space-x-2">
-                <Languages className="w-6 h-6 text-brand" />
-                <span>اللغات</span>
-              </h3>
-              <div className="space-y-3">
-                {personalInfo.languages.map((language, index) => (
-                  <div key={index} className="flex justify-between">
-                    <span className="font-medium text-gray-700">{language.name}</span>
-                    <span className="text-brand">{language.level}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </div>
 
           {/* Main Content */}
@@ -178,30 +156,6 @@ const CVPage = () => {
               </div>
             </motion.div>
 
-            {/* Achievements */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="bg-white rounded-2xl p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold text-brand-dark mb-8 flex items-center space-x-reverse space-x-2">
-                <Award className="w-6 h-6 text-brand" />
-                <span>الجوائز والتكريمات</span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {personalInfo.achievements.map((achievement, index) => (
-                  <div key={index} className="bg-gray-50 rounded-xl p-6">
-                    <div className="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center mb-4">
-                      <Award className="w-6 h-6 text-brand" />
-                    </div>
-                    <h4 className="font-bold text-gray-800 mb-2">{achievement.title}</h4>
-                    <p className="text-brand mb-1">{achievement.organization}</p>
-                    <p className="text-gray-500 text-sm">{achievement.year}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
       </div>

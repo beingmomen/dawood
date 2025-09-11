@@ -2,7 +2,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 class ApiService {
   constructor() {
-    this.baseURL = API_BASE_URL || 'https://dawood-api.beingmomen.com/api/v1';
+    this.baseURL = import.meta.env.VITE_API_BASE_URL || 'https://dawood-api.beingmomen.com/api/v1';
     this.timeout = 10000; // 10 seconds timeout
   }
 
@@ -12,14 +12,11 @@ class ApiService {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
+        'Accept': 'application/json',        
         ...options.headers,
       },
       mode: 'cors',
-      credentials: 'omit',
+      credentials: 'same-origin',
       ...options,
     };
 
@@ -46,11 +43,12 @@ class ApiService {
       
       // Provide more specific error messages
       if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
-        throw new Error('فشل في الاتصال بالخادم. تأكد من اتصالك بالإنترنت أو أن الخادم متاح.');
+        console.warn('API server unavailable, this is expected in development');
+        throw new Error('API server is not available. Please check if the server is running.');
       } else if (error.message === 'Request timeout') {
-        throw new Error('انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.');
+        throw new Error('Request timeout. Please try again.');
       } else if (error.message.includes('CORS')) {
-        throw new Error('مشكلة في إعدادات CORS. يرجى التواصل مع مطور النظام.');
+        throw new Error('CORS configuration issue. Please contact system administrator.');
       }
       
       throw error;

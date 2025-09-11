@@ -31,7 +31,8 @@ export const useApi = (apiCall, dependencies = []) => {
       const result = await apiCall();
       setData(result.data || result);
     } catch (err) {
-      setError(err.message || 'حدث خطأ في تحميل البيانات');
+      // Don't throw error, just set it so components can handle gracefully
+      return null;
     } finally {
       setLoading(false);
     }

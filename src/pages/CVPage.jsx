@@ -10,9 +10,33 @@ import {
   Download,
   Calendar
 } from 'lucide-react';
-import personalInfo from '../data/personalInfo.json';
+import { usePersonalInfo } from '../hooks/useApi';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import ErrorMessage from '../components/ui/ErrorMessage';
 
 const CVPage = () => {
+  const { data: personalInfo, loading, error, refetch } = usePersonalInfo();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <LoadingSpinner text="جاري تحميل السيرة الذاتية..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !personalInfo) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <ErrorMessage message={error || 'لم يتم العثور على البيانات'} onRetry={refetch} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-12">
@@ -99,9 +123,9 @@ const CVPage = () => {
                 <span>الخبرة المهنية</span>
               </h3>
               <div className="space-y-8">
-                {personalInfo.experience.map((job, index) => (
+                {(personalInfo.experience || []).map((job, index) => (
                   <div key={index} className="relative">
-                    {index !== personalInfo.experience.length - 1 && (
+                    {index !== (personalInfo.experience || []).length - 1 && (
                       <div className="absolute right-4 top-12 w-0.5 h-full bg-gray-200"></div>
                     )}
                     <div className="flex space-x-reverse space-x-6">
@@ -116,7 +140,7 @@ const CVPage = () => {
                         <h4 className="text-xl font-bold text-gray-800 mb-1">{job.position}</h4>
                         <p className="text-brand mb-4">{job.organization}</p>
                         <ul className="space-y-2">
-                          {job.responsibilities.map((responsibility, idx) => (
+                          {(job.responsibilities || []).map((responsibility, idx) => (
                             <li key={idx} className="text-gray-600 flex items-start space-x-reverse space-x-2">
                               <span className="w-2 h-2 bg-brand rounded-full mt-2 flex-shrink-0"></span>
                               <span>{responsibility}</span>
@@ -142,7 +166,7 @@ const CVPage = () => {
                 <span>التعليم</span>
               </h3>
               <div className="space-y-6">
-                {personalInfo.education.map((edu, index) => (
+                {(personalInfo.education || []).map((edu, index) => (
                   <div key={index} className="border-r-4 border-brand pr-6">
                     <div className="flex items-center space-x-reverse space-x-2 mb-2">
                       <Calendar className="w-4 h-4 text-gray-500" />

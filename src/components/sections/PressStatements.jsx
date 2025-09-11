@@ -2,34 +2,32 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, FileText, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePressStatements } from '../../hooks/useApi';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import ErrorMessage from '../ui/ErrorMessage';
 
 const PressStatements = () => {
-  const statements = [
-    {
-      id: 1,
-      title: 'بيان حول أزمة التعليم العالي',
-      excerpt: 'بيان صحفي يتناول التحديات التي تواجه التعليم العالي والحلول المقترحة لتطوير المنظومة التعليمية',
-      date: '2024-01-20',
-      category: 'تعليم',
-      urgent: true,
-    },
-    {
-      id: 2,
-      title: 'موقف من قضايا البيئة والتغير المناخي',
-      excerpt: 'بيان يوضح الموقف الرسمي من قضايا البيئة والتغير المناخي والإجراءات المطلوبة للحفاظ على البيئة',
-      date: '2024-01-15',
-      category: 'بيئة',
-      urgent: false,
-    },
-    {
-      id: 3,
-      title: 'تصريح حول الإصلاحات الاقتصادية',
-      excerpt: 'تصريح صحفي حول الإصلاحات الاقتصادية المطلوبة وتأثيرها على الطبقات الشعبية والمتوسطة',
-      date: '2024-01-08',
-      category: 'اقتصاد',
-      urgent: false,
-    },
-  ];
+  const { data: statements, loading, error, refetch } = usePressStatements();
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <LoadingSpinner text="جاري تحميل البيانات الصحفية..." />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-background">
@@ -50,7 +48,7 @@ const PressStatements = () => {
         </motion.div>
 
         <div className="max-w-4xl mx-auto space-y-8">
-          {statements.map((statement, index) => (
+          {(statements || []).map((statement, index) => (
             <motion.div
               key={statement.id}
               initial={{ opacity: 0, x: -30 }}

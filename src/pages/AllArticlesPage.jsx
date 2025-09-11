@@ -2,20 +2,43 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Eye, Search, Filter, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import articlesData from '../data/articles.json';
+import { useArticles } from '../hooks/useApi';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import ErrorMessage from '../components/ui/ErrorMessage';
 
 const AllArticlesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const { data: articlesData, loading, error, refetch } = useArticles();
 
   const categories = ['الكل', 'سياسة', 'اقتصاد', 'إعلام', 'حقوق إنسان', 'تعليم', 'صحة'];
 
-  const filteredArticles = articlesData.filter(article => {
+  const filteredArticles = (articlesData || []).filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'الكل' || article.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <LoadingSpinner text="جاري تحميل المقالات..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pt-20">

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Image, Video, FileText, Play, Download, Eye } from 'lucide-react';
+import { useMedia } from '../../hooks/useApi';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import ErrorMessage from '../ui/ErrorMessage';
 
 const MediaTabs = () => {
   const [activeTab, setActiveTab] = useState('images');
+  const { data: mediaData, loading, error, refetch } = useMedia();
 
   const tabs = [
     { id: 'images', label: 'الصور', icon: Image },
@@ -11,106 +15,25 @@ const MediaTabs = () => {
     { id: 'documents', label: 'المستندات', icon: FileText },
   ];
 
-  const mediaData = {
-    images: [
-      {
-        id: 1,
-        src: 'https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'جلسة برلمانية مهمة',
-        description: 'مناقشة قانون الضمان الاجتماعي',
-      },
-      {
-        id: 2,
-        src: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'لقاء صحفي',
-        description: 'مؤتمر صحفي حول الإصلاحات الاقتصادية',
-      },
-      {
-        id: 3,
-        src: 'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'زيارة ميدانية',
-        description: 'زيارة لمشاريع التنمية المحلية',
-      },
-      {
-        id: 4,
-        src: 'https://images.pexels.com/photos/5699456/pexels-photo-5699456.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'ورشة عمل',
-        description: 'ورشة حول حقوق الإنسان',
-      },
-      {
-        id: 5,
-        src: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'اجتماع لجنة',
-        description: 'اجتماع لجنة الشؤون الخارجية',
-      },
-      {
-        id: 6,
-        src: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600',
-        title: 'فعالية مجتمعية',
-        description: 'فعالية خيرية للأطفال المحتاجين',
-      },
-    ],
-    videos: [
-      {
-        id: 1,
-        videoId: 'dQw4w9WgXcQ',
-        title: 'كلمة في البرلمان حول التعليم',
-        duration: '15:30',
-        views: '25K',
-      },
-      {
-        id: 2,
-        videoId: 'jNQXAC9IVRw',
-        title: 'مقابلة تلفزيونية حول الإصلاحات',
-        duration: '22:45',
-        views: '18K',
-      },
-      {
-        id: 3,
-        videoId: 'y6120QOlsfU',
-        title: 'تقرير إخباري عن الأنشطة البرلمانية',
-        duration: '8:20',
-        views: '12K',
-      },
-      {
-        id: 4,
-        videoId: 'kJQP7kiw5Fk',
-        title: 'ندوة حول حقوق المرأة',
-        duration: '45:15',
-        views: '30K',
-      },
-    ],
-    documents: [
-      {
-        id: 1,
-        title: 'تقرير الأداء البرلماني 2023',
-        type: 'PDF',
-        size: '2.5 MB',
-        downloads: '1.2K',
-      },
-      {
-        id: 2,
-        title: 'مشروع قانون الضمان الاجتماعي',
-        type: 'PDF',
-        size: '1.8 MB',
-        downloads: '850',
-      },
-      {
-        id: 3,
-        title: 'دراسة حول التنمية المستدامة',
-        type: 'PDF',
-        size: '3.2 MB',
-        downloads: '920',
-      },
-      {
-        id: 4,
-        title: 'تقرير لجنة حقوق الإنسان',
-        type: 'PDF',
-        size: '2.1 MB',
-        downloads: '750',
-      },
-    ],
-  };
+  if (loading) {
+    return (
+      <section id="media" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <LoadingSpinner text="جاري تحميل الوسائط..." />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="media" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="media" className="py-20 bg-white">
@@ -163,7 +86,7 @@ const MediaTabs = () => {
           >
             {activeTab === 'images' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mediaData.images.map((image, index) => (
+                {(mediaData?.images || []).map((image, index) => (
                   <motion.div
                     key={image.id}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -189,7 +112,7 @@ const MediaTabs = () => {
 
             {activeTab === 'videos' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {mediaData.videos.map((video, index) => (
+                {(mediaData?.videos || []).map((video, index) => (
                   <motion.div
                     key={video.id}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -224,7 +147,7 @@ const MediaTabs = () => {
 
             {activeTab === 'documents' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 hide-documents-section">
-                {mediaData.documents.map((doc, index) => (
+                {(mediaData?.documents || []).map((doc, index) => (
                   <motion.div
                     key={doc.id}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -259,6 +182,9 @@ const MediaTabs = () => {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {loading && <LoadingSpinner text="جاري تحميل الوسائط..." />}
+        {error && <ErrorMessage message={error} onRetry={refetch} />}
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

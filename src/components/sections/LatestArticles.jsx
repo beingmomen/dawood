@@ -3,9 +3,33 @@ import { motion } from 'framer-motion';
 import { Calendar, ArrowLeft, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Carousel from '../ui/Carousel';
-import articlesData from '../../data/articles.json';
+import { useArticles } from '../../hooks/useApi';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import ErrorMessage from '../ui/ErrorMessage';
 
 const LatestArticles = () => {
+  const { data: articles, loading, error, refetch } = useArticles();
+
+  if (loading) {
+    return (
+      <section id="articles" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <LoadingSpinner text="جاري تحميل المقالات..." />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="articles" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
+
   const ArticleCard = ({ article, index }) => (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -76,7 +100,7 @@ const LatestArticles = () => {
         </motion.div>
 
         <Carousel
-          items={articlesData}
+          items={articles || []}
           renderItem={(article, index) => <ArticleCard article={article} index={index} />}
           slidesToShow={3}
           autoplay={true}

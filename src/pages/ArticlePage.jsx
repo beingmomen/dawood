@@ -2,17 +2,36 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Eye, Clock, Share2, Facebook, Twitter, Linkedin, ArrowRight, User } from 'lucide-react';
-import articlesData from '../data/articles.json';
+import { useArticle } from '../hooks/useApi';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import ErrorMessage from '../components/ui/ErrorMessage';
 
 const ArticlePage = () => {
   const { id } = useParams();
-  const article = articlesData.find(a => a.id === parseInt(id || '1'));
+  const { data: article, loading, error, refetch } = useArticle(id);
 
-  if (!article) {
-    return <div>المقال غير موجود</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <LoadingSpinner text="جاري تحميل المقال..." />
+        </div>
+      </div>
+    );
   }
 
-  const relatedArticles = articlesData.filter(a => a.id !== article.id).slice(0, 2);
+  if (error || !article) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <ErrorMessage message={error || 'المقال غير موجود'} onRetry={refetch} />
+        </div>
+      </div>
+    );
+  }
+
+  // For now, we'll use empty array for related articles since we need a separate API call
+  const relatedArticles = [];
 
   return (
     <div className="min-h-screen bg-background pt-20">
@@ -91,7 +110,7 @@ const ArticlePage = () => {
                 <div className="mt-8 pt-8 border-t border-gray-200">
                   <h3 className="text-lg font-bold mb-4">الكلمات المفتاحية</h3>
                   <div className="flex flex-wrap gap-2">
-                    {article.tags.map((tag, index) => (
+                    {(article.tags || []).map((tag, index) => (
                       <span
                         key={index}
                         className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-brand hover:text-white transition-colors cursor-pointer"
@@ -148,37 +167,39 @@ const ArticlePage = () => {
             </motion.div>
 
             {/* Related Articles */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
-            >
-              <h3 className="text-xl font-bold text-brand-dark mb-6">مقالات ذات صلة</h3>
-              <div className="space-y-4">
-                {relatedArticles.map((relatedArticle) => (
-                  <Link
-                    key={relatedArticle.id}
-                    to={`/article/${relatedArticle.id}`}
-                    className="flex space-x-reverse space-x-4 group"
-                  >
-                    <img
-                      src={relatedArticle.image}
-                      alt={relatedArticle.title}
-                      className="w-16 h-16 rounded-lg object-cover"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-medium text-gray-800 group-hover:text-brand transition-colors line-clamp-2">
-                        {relatedArticle.title}
-                      </h4>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {new Date(relatedArticle.date).toLocaleDateString('ar-EG')}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
+            {relatedArticles.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="bg-white rounded-2xl p-6 shadow-lg"
+              >
+                <h3 className="text-xl font-bold text-brand-dark mb-6">مقالات ذات صلة</h3>
+                <div className="space-y-4">
+                  {relatedArticles.map((relatedArticle) => (
+                    <Link
+                      key={relatedArticle.id}
+                      to={`/article/${relatedArticle.id}`}
+                      className="flex space-x-reverse space-x-4 group"
+                    >
+                      <img
+                        src={relatedArticle.image}
+                        alt={relatedArticle.title}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-800 group-hover:text-brand transition-colors line-clamp-2">
+                          {relatedArticle.title}
+                        </h4>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {new Date(relatedArticle.date).toLocaleDateString('ar-EG')}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
 

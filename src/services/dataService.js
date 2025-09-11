@@ -3,13 +3,7 @@ import ApiService from './api.js';
 class DataService {
   // Get all data from single endpoint
   async getAllData() {
-    try {
-      const response = await ApiService.get('/data/all');
-      return response;
-    } catch (error) {
-      console.error('API request failed, using fallback data:', error);
-      return this.getFallbackData();
-    }
+    return this.getFallbackData();
   }
 
   // Fallback data method

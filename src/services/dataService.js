@@ -3,13 +3,8 @@ import ApiService from './api.js';
 class DataService {
   // Get all data from single endpoint
   async getAllData() {
-    try {
-      return await ApiService.get('/data/all');
-    } catch (error) {
-      console.error('Error fetching all data:', error);
-      // Fallback to local data if API fails
-      return this.getFallbackData();
-    }
+    // Use local data directly until API is available
+    return this.getFallbackData();
   }
 
   // Fallback data method

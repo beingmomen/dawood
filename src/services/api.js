@@ -3,6 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL || 'https://dawood-api.beingmomen.com/api/v1';
+    this.timeout = 10000; // 10 seconds timeout
   }
 
   async request(endpoint, options = {}) {
@@ -12,22 +13,46 @@ class ApiService {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
         ...options.headers,
       },
+      mode: 'cors',
+      credentials: 'omit',
       ...options,
     };
 
     try {
-      const response = await fetch(url, config);
+      // Create a timeout promise
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timeout')), this.timeout)
+      );
+      
+      // Race between fetch and timeout
+      const response = await Promise.race([
+        fetch(url, config),
+        timeoutPromise
+      ]);
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
       
       const data = await response.json();
       return data;
     } catch (error) {
       console.error('API request failed:', error);
+      
+      // Provide more specific error messages
+      if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+        throw new Error('فشل في الاتصال بالخادم. تأكد من اتصالك بالإنترنت أو أن الخادم متاح.');
+      } else if (error.message === 'Request timeout') {
+        throw new Error('انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.');
+      } else if (error.message.includes('CORS')) {
+        throw new Error('مشكلة في إعدادات CORS. يرجى التواصل مع مطور النظام.');
+      }
+      
       throw error;
     }
   }

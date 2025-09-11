@@ -13,7 +13,8 @@ export const useApi = (apiCall, dependencies = []) => {
         const result = await apiCall();
         setData(result.data || result);
       } catch (err) {
-        setError(err.message || 'حدث خطأ في تحميل البيانات');
+        const errorMessage = err.message || 'حدث خطأ في تحميل البيانات';
+        setError(errorMessage);
         console.error('API Error:', err);
       } finally {
         setLoading(false);

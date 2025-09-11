@@ -2,7 +2,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 class ApiService {
   constructor() {
-    this.baseURL = API_BASE_URL;
+    this.baseURL = API_BASE_URL || 'https://dawood-api.beingmomen.com/api/v1';
   }
 
   async request(endpoint, options = {}) {

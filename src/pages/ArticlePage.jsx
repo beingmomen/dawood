@@ -1,10 +1,20 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Calendar, Eye, Clock, Share2, Facebook, Twitter, Linkedin, ArrowRight, User } from 'lucide-react';
-import { useArticle } from '../hooks/useApi';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import ErrorMessage from '../components/ui/ErrorMessage';
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Calendar,
+  Eye,
+  Clock,
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  ArrowRight,
+  User,
+} from "lucide-react";
+import { useArticle } from "../hooks/useApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const ArticlePage = () => {
   const { id } = useParams();
@@ -24,7 +34,10 @@ const ArticlePage = () => {
     return (
       <div className="min-h-screen bg-background pt-20">
         <div className="container mx-auto px-4 py-12">
-          <ErrorMessage message={error || 'المقال غير موجود'} onRetry={refetch} />
+          <ErrorMessage
+            message={error || "المقال غير موجود"}
+            onRetry={refetch}
+          />
         </div>
       </div>
     );
@@ -43,9 +56,13 @@ const ArticlePage = () => {
           className="mb-8"
         >
           <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
-            <Link to="/" className="hover:text-brand">الرئيسية</Link>
+            <Link to="/" className="hover:text-brand">
+              الرئيسية
+            </Link>
             <span>/</span>
-            <Link to="/articles" className="hover:text-brand">المقالات</Link>
+            <Link to="/articles" className="hover:text-brand">
+              المقالات
+            </Link>
             <span>/</span>
             <span className="text-brand">{article.title}</span>
           </div>
@@ -88,7 +105,9 @@ const ArticlePage = () => {
                   </div>
                   <div className="flex items-center space-x-reverse space-x-2">
                     <Calendar className="w-5 h-5" />
-                    <span>{new Date(article.date).toLocaleDateString('ar-EG')}</span>
+                    <span>
+                      {new Date(article.date).toLocaleDateString("ar-EG")}
+                    </span>
                   </div>
                   <div className="flex items-center space-x-reverse space-x-2 hide-read-time">
                     <Clock className="w-5 h-5" />
@@ -101,7 +120,7 @@ const ArticlePage = () => {
                 </div>
 
                 {/* Content */}
-                <div 
+                <div
                   className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: article.content }}
                 />
@@ -158,10 +177,13 @@ const ArticlePage = () => {
                   alt="محمد عبدالعليم داود"
                   className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
                 />
-                <h3 className="text-xl font-bold text-brand-dark mb-2">محمد عبدالعليم داود</h3>
+                <h3 className="text-xl font-bold text-brand-dark mb-2">
+                  محمد عبدالعليم داود
+                </h3>
                 <p className="text-gray-600 mb-4">صحفي وعضو برلمان</p>
                 <p className="text-sm text-gray-500 leading-relaxed">
-                  صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة.
+                  صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى
+                  لتحقيق العدالة الاجتماعية والتنمية المستدامة.
                 </p>
               </div>
             </motion.div>
@@ -174,7 +196,9 @@ const ArticlePage = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="bg-white rounded-2xl p-6 shadow-lg"
               >
-                <h3 className="text-xl font-bold text-brand-dark mb-6">مقالات ذات صلة</h3>
+                <h3 className="text-xl font-bold text-brand-dark mb-6">
+                  مقالات ذات صلة
+                </h3>
                 <div className="space-y-4">
                   {relatedArticles.map((relatedArticle) => (
                     <Link
@@ -192,7 +216,9 @@ const ArticlePage = () => {
                           {relatedArticle.title}
                         </h4>
                         <p className="text-sm text-gray-500 mt-1">
-                          {new Date(relatedArticle.date).toLocaleDateString('ar-EG')}
+                          {new Date(relatedArticle.date).toLocaleDateString(
+                            "ar-EG"
+                          )}
                         </p>
                       </div>
                     </Link>

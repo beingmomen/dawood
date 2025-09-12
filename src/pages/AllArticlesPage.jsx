@@ -1,71 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, Eye, Search, Filter, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { useArticles } from '../hooks/useApi';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import ErrorMessage from '../components/ui/ErrorMessage';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Calendar,
+  Eye,
+  Search,
+  Filter,
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useArticles } from "../hooks/useApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const AllArticlesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
+
   // Get current page from URL params
-  const currentPage = parseInt(searchParams.get('page') || '1');
-  
+  const currentPage = parseInt(searchParams.get("page") || "1");
+
   // API call with pagination
-  const { data: articlesResponse, loading, error, refetch } = useArticles({
+  const {
+    data: responseData,
+    loading,
+    error,
+  } = useArticles({
     page: currentPage,
     limit: 12,
     search: searchTerm,
-    category: selectedCategory !== 'الكل' ? selectedCategory : undefined
+    category: selectedCategory !== "الكل" ? selectedCategory : undefined,
   });
 
-  const articles = articlesResponse?.data || [];
-  const pagination = articlesResponse?.pagination || {
-    currentPage: 1,
+  console.warn("responseData", responseData);
+  const articlesData = responseData || [];
+  const paginationData = responseData?.pagination || {
+    currentPage: currentPage,
     totalPages: 1,
     totalItems: 0,
     hasNext: false,
-    hasPrev: false
+    hasPrev: false,
   };
 
-  const categories = ['الكل', 'سياسة', 'اقتصاد', 'إعلام', 'حقوق إنسان', 'تعليم', 'صحة'];
+  const categories = [
+    "الكل",
+    "سياسة",
+    "اقتصاد",
+    "إعلام",
+    "حقوق إنسان",
+    "تعليم",
+    "صحة",
+  ];
 
   // Handle page change
   const handlePageChange = (page) => {
     setSearchParams({ page: page.toString() });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Handle search and filter changes
   useEffect(() => {
     // Reset to page 1 when search or category changes
     if (currentPage !== 1) {
-      setSearchParams({ page: '1' });
+      setSearchParams({ page: "1" });
     }
   }, [searchTerm, selectedCategory]);
 
   // Generate page numbers for pagination
   const getPageNumbers = () => {
     const pages = [];
-    const totalPages = pagination.totalPages;
-    const current = pagination.currentPage;
-    
+    const totalPages = paginationData.totalPages;
+    const current = paginationData.currentPage;
+
     // Always show first page
     if (totalPages > 0) pages.push(1);
-    
+
     // Show pages around current page
-    for (let i = Math.max(2, current - 1); i <= Math.min(totalPages - 1, current + 1); i++) {
+    for (
+      let i = Math.max(2, current - 1);
+      i <= Math.min(totalPages - 1, current + 1);
+      i++
+    ) {
       if (!pages.includes(i)) pages.push(i);
     }
-    
+
     // Always show last page if more than 1 page
     if (totalPages > 1 && !pages.includes(totalPages)) {
       pages.push(totalPages);
     }
-    
+
     return pages.sort((a, b) => a - b);
   };
 
@@ -83,7 +108,7 @@ const AllArticlesPage = () => {
     return (
       <div className="min-h-screen bg-background pt-20">
         <div className="container mx-auto px-4 py-12">
-          <ErrorMessage message={error} onRetry={refetch} />
+          <ErrorMessage message={error} />
         </div>
       </div>
     );
@@ -103,11 +128,12 @@ const AllArticlesPage = () => {
             جميع المقالات
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            مجموعة شاملة من المقالات والتحليلات في مختلف القضايا السياسية والاجتماعية
+            مجموعة شاملة من المقالات والتحليلات في مختلف القضايا السياسية
+            والاجتماعية
           </p>
-          {pagination.totalItems > 0 && (
+          {paginationData.totalItems > 0 && (
             <p className="text-sm text-gray-500 mt-4">
-              عرض {articles.length} من أصل {pagination.totalItems} مقال
+              عرض {articlesData.length} من أصل {paginationData.totalItems} مقال
             </p>
           )}
         </motion.div>
@@ -140,8 +166,10 @@ const AllArticlesPage = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
               >
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
                 ))}
               </select>
             </div>
@@ -149,10 +177,10 @@ const AllArticlesPage = () => {
         </motion.div>
 
         {/* Articles Grid */}
-        {articles.length > 0 ? (
+        {articlesData.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {articles.map((article, index) => (
+              {articlesData.map((article, index) => (
                 <motion.div
                   key={article.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -172,7 +200,7 @@ const AllArticlesPage = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
                       {article.title}
@@ -180,21 +208,25 @@ const AllArticlesPage = () => {
                     <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
                       {article.excerpt}
                     </p>
-                    
+
                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                       <div className="flex items-center space-x-reverse space-x-2">
                         <Calendar className="w-4 h-4" />
-                        <span>{new Date(article.date).toLocaleDateString('ar-EG')}</span>
+                        <span>
+                          {new Date(article.date).toLocaleDateString("ar-EG")}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-reverse space-x-4">
                         <div className="flex items-center space-x-reverse space-x-1 hide-views">
                           <Eye className="w-4 h-4" />
                           <span>{article.views}</span>
                         </div>
-                        <span className="hide-read-time">{article.readTime}</span>
+                        <span className="hide-read-time">
+                          {article.readTime}
+                        </span>
                       </div>
                     </div>
-                    
+
                     <Link
                       to={`/article/${article.id}`}
                       className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"
@@ -208,7 +240,7 @@ const AllArticlesPage = () => {
             </div>
 
             {/* Pagination */}
-            {pagination.totalPages > 1 && (
+            {paginationData.totalPages > 1 && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -217,8 +249,10 @@ const AllArticlesPage = () => {
               >
                 {/* Previous Button */}
                 <button
-                  onClick={() => handlePageChange(pagination.currentPage - 1)}
-                  disabled={!pagination.hasPrev}
+                  onClick={() =>
+                    handlePageChange(paginationData.currentPage - 1)
+                  }
+                  disabled={!paginationData.hasPrev}
                   className="flex items-center space-x-reverse space-x-2 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -233,13 +267,13 @@ const AllArticlesPage = () => {
                       {index > 0 && pageNum > array[index - 1] + 1 && (
                         <span className="px-3 py-2 text-gray-500">...</span>
                       )}
-                      
+
                       <button
                         onClick={() => handlePageChange(pageNum)}
                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                          pageNum === pagination.currentPage
-                            ? 'bg-brand text-white shadow-lg'
-                            : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-md'
+                          pageNum === paginationData.currentPage
+                            ? "bg-brand text-white shadow-lg"
+                            : "bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-md"
                         }`}
                       >
                         {pageNum}
@@ -250,8 +284,10 @@ const AllArticlesPage = () => {
 
                 {/* Next Button */}
                 <button
-                  onClick={() => handlePageChange(pagination.currentPage + 1)}
-                  disabled={!pagination.hasNext}
+                  onClick={() =>
+                    handlePageChange(paginationData.currentPage + 1)
+                  }
+                  disabled={!paginationData.hasNext}
                   className="flex items-center space-x-reverse space-x-2 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span>التالي</span>
@@ -270,17 +306,19 @@ const AllArticlesPage = () => {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Search className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">لا توجد مقالات</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              لا توجد مقالات
+            </h3>
             <p className="text-xl text-gray-500 mb-8">
-              {searchTerm || selectedCategory !== 'الكل' 
-                ? 'لا توجد مقالات تطابق البحث' 
-                : 'لم يتم العثور على أي مقالات'}
+              {searchTerm || selectedCategory !== "الكل"
+                ? "لا توجد مقالات تطابق البحث"
+                : "لم يتم العثور على أي مقالات"}
             </p>
-            {(searchTerm || selectedCategory !== 'الكل') && (
+            {(searchTerm || selectedCategory !== "الكل") && (
               <button
                 onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('الكل');
+                  setSearchTerm("");
+                  setSelectedCategory("الكل");
                   setSearchParams({});
                 }}
                 className="bg-brand text-white px-6 py-3 rounded-lg hover:bg-brand-dark transition-colors"

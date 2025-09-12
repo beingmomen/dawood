@@ -12,13 +12,14 @@ import {
   ArrowRight,
   User,
 } from "lucide-react";
-import { useArticle } from "../hooks/useApi";
+import { useArticle, usePersonalInfo } from "../hooks/useApi";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
 
 const ArticlePage = () => {
   const { id } = useParams();
   const { data: article, loading, error, refetch } = useArticle(id);
+  const { data: personalInfo, loading: personalLoading, error: personalError } = usePersonalInfo();
 
   if (loading) {
     return (
@@ -171,21 +172,46 @@ const ArticlePage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="bg-white rounded-2xl p-6 shadow-lg mb-8"
             >
-              <div className="text-center">
-                <img
-                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
-                  alt="محمد عبدالعليم داود"
-                  className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-bold text-brand-dark mb-2">
-                  محمد عبدالعليم داود
-                </h3>
-                <p className="text-gray-600 mb-4">صحفي وعضو برلمان</p>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى
-                  لتحقيق العدالة الاجتماعية والتنمية المستدامة.
-                </p>
-              </div>
+              {personalLoading ? (
+                <div className="text-center py-8">
+                  <LoadingSpinner text="جاري تحميل المعلومات الشخصية..." />
+                </div>
+              ) : personalError ? (
+                <div className="text-center py-8">
+                  <ErrorMessage message="خطأ في تحميل المعلومات الشخصية" />
+                </div>
+              ) : personalInfo ? (
+                <div className="text-center">
+                  <img
+                    src={personalInfo.profileImage || "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"}
+                    alt={personalInfo.name || "محمد عبدالعليم داود"}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  />
+                  <h3 className="text-xl font-bold text-brand-dark mb-2">
+                    {personalInfo.name || "محمد عبدالعليم داود"}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{personalInfo.title || "صحفي وعضو برلمان"}</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {personalInfo.bio || "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة."}
+                  </p>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <img
+                    src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
+                    alt="محمد عبدالعليم داود"
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  />
+                  <h3 className="text-xl font-bold text-brand-dark mb-2">
+                    محمد عبدالعليم داود
+                  </h3>
+                  <p className="text-gray-600 mb-4">صحفي وعضو برلمان</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى
+                    لتحقيق العدالة الاجتماعية والتنمية المستدامة.
+                  </p>
+                </div>
+              )}
             </motion.div>
 
             {/* Related Articles */}

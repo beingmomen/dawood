@@ -99,8 +99,8 @@ class DataService {
     try {
       const response = await ApiService.get(`/articles/${id}`);
 
-      if (response.success && response.data) {
-        const article = response.data;
+      if (response.status === "success" && response.data && response.data.data) {
+        const article = response.data.data;
         return {
           data: {
             id: article._id || article.id,

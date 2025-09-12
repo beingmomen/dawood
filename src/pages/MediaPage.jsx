@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Image, Video, FileText, Play, Download, Eye, Search, Filter } from 'lucide-react';
+import { useMedia } from '../hooks/useApi';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import ErrorMessage from '../components/ui/ErrorMessage';
 
 const MediaPage = () => {
   const [activeTab, setActiveTab] = useState('images');
   const [searchTerm, setSearchTerm] = useState('');
+  const { data: mediaData, loading, error, refetch } = useMedia();
 
   const tabs = [
     { id: 'images', label: 'الصور', icon: Image },
@@ -12,191 +16,32 @@ const MediaPage = () => {
     { id: 'documents', label: 'المستندات', icon: FileText },
   ];
 
-  const mediaData = {
-    images: [
-      {
-        id: 1,
-        src: 'https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'جلسة برلمانية مهمة',
-        description: 'مناقشة قانون الضمان الاجتماعي في مجلس الشورى',
-        date: '2024-01-15',
-        category: 'برلمان',
-      },
-      {
-        id: 2,
-        src: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'لقاء صحفي',
-        description: 'مؤتمر صحفي حول الإصلاحات الاقتصادية المقترحة',
-        date: '2024-01-12',
-        category: 'إعلام',
-      },
-      {
-        id: 3,
-        src: 'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'زيارة ميدانية',
-        description: 'زيارة لمشاريع التنمية المحلية في المنطقة الشرقية',
-        date: '2024-01-08',
-        category: 'زيارات',
-      },
-      {
-        id: 4,
-        src: 'https://images.pexels.com/photos/5699456/pexels-photo-5699456.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'ورشة عمل',
-        description: 'ورشة حول حقوق الإنسان والحريات المدنية',
-        date: '2024-01-05',
-        category: 'فعاليات',
-      },
-      {
-        id: 5,
-        src: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'اجتماع لجنة',
-        description: 'اجتماع لجنة الشؤون الخارجية والأمن الوطني',
-        date: '2024-01-02',
-        category: 'برلمان',
-      },
-      {
-        id: 6,
-        src: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'فعالية مجتمعية',
-        description: 'فعالية خيرية للأطفال المحتاجين في الرياض',
-        date: '2023-12-28',
-        category: 'مجتمع',
-      },
-      {
-        id: 7,
-        src: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'مؤتمر دولي',
-        description: 'المشاركة في المؤتمر البرلماني العربي في القاهرة',
-        date: '2023-12-20',
-        category: 'مؤتمرات',
-      },
-      {
-        id: 8,
-        src: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800',
-        title: 'لقاء شبابي',
-        description: 'لقاء مع الشباب لمناقشة قضايا التعليم والتوظيف',
-        date: '2023-12-15',
-        category: 'شباب',
-      },
-    ],
-    videos: [
-      {
-        id: 1,
-        videoId: 'dQw4w9WgXcQ',
-        title: 'كلمة في البرلمان حول التعليم',
-        description: 'كلمة مهمة حول إصلاح منظومة التعليم العالي',
-        duration: '15:30',
-        views: '25K',
-        date: '2024-01-18',
-      },
-      {
-        id: 2,
-        videoId: 'jNQXAC9IVRw',
-        title: 'مقابلة تلفزيونية حول الإصلاحات',
-        description: 'مقابلة شاملة حول الإصلاحات الاقتصادية والاجتماعية',
-        duration: '22:45',
-        views: '18K',
-        date: '2024-01-15',
-      },
-      {
-        id: 3,
-        videoId: 'y6120QOlsfU',
-        title: 'تقرير إخباري عن الأنشطة البرلمانية',
-        description: 'تقرير مفصل عن أهم الأنشطة البرلمانية للفصل الحالي',
-        duration: '8:20',
-        views: '12K',
-        date: '2024-01-10',
-      },
-      {
-        id: 4,
-        videoId: 'kJQP7kiw5Fk',
-        title: 'ندوة حول حقوق المرأة',
-        description: 'ندوة متخصصة حول تعزيز حقوق المرأة في المجتمع',
-        duration: '45:15',
-        views: '30K',
-        date: '2024-01-05',
-      },
-      {
-        id: 5,
-        videoId: 'LDU_Txk06tM',
-        title: 'خطاب في المؤتمر الاقتصادي',
-        description: 'خطاب حول التحديات الاقتصادية وسبل مواجهتها',
-        duration: '18:42',
-        views: '22K',
-        date: '2023-12-28',
-      },
-      {
-        id: 6,
-        videoId: 'fJ9rUzIMcZQ',
-        title: 'حوار حول السياسة الخارجية',
-        description: 'حوار معمق حول السياسة الخارجية والعلاقات الدولية',
-        duration: '35:20',
-        views: '16K',
-        date: '2023-12-20',
-      },
-    ],
-    documents: [
-      {
-        id: 1,
-        title: 'تقرير الأداء البرلماني 2023',
-        description: 'تقرير شامل عن الأنشطة والإنجازات البرلمانية لعام 2023',
-        type: 'PDF',
-        size: '2.5 MB',
-        downloads: '1.2K',
-        date: '2024-01-01',
-      },
-      {
-        id: 2,
-        title: 'مشروع قانون الضمان الاجتماعي',
-        description: 'النص الكامل لمشروع قانون الضمان الاجتماعي المقترح',
-        type: 'PDF',
-        size: '1.8 MB',
-        downloads: '850',
-        date: '2023-12-15',
-      },
-      {
-        id: 3,
-        title: 'دراسة حول التنمية المستدامة',
-        description: 'دراسة تحليلية حول استراتيجيات التنمية المستدامة',
-        type: 'PDF',
-        size: '3.2 MB',
-        downloads: '920',
-        date: '2023-12-10',
-      },
-      {
-        id: 4,
-        title: 'تقرير لجنة حقوق الإنسان',
-        description: 'التقرير السنوي للجنة حقوق الإنسان والحريات المدنية',
-        type: 'PDF',
-        size: '2.1 MB',
-        downloads: '750',
-        date: '2023-12-05',
-      },
-      {
-        id: 5,
-        title: 'مذكرة حول الإصلاح التعليمي',
-        description: 'مذكرة تفصيلية حول مقترحات إصلاح النظام التعليمي',
-        type: 'PDF',
-        size: '1.9 MB',
-        downloads: '680',
-        date: '2023-11-28',
-      },
-      {
-        id: 6,
-        title: 'خطة التطوير الاقتصادي',
-        description: 'خطة شاملة للتطوير الاقتصادي والاستثمار المحلي',
-        type: 'PDF',
-        size: '2.8 MB',
-        downloads: '1.1K',
-        date: '2023-11-20',
-      },
-    ],
-  };
 
-  const filteredData = mediaData[activeTab].filter((item) =>
+
+  const filteredData = (mediaData?.[activeTab] || []).filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <LoadingSpinner text="جاري تحميل الوسائط..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto px-4 py-12">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pt-20">

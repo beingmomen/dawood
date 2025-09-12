@@ -8,7 +8,8 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorMessage from '../ui/ErrorMessage';
 
 const LatestArticles = () => {
-  const { data: articles, loading, error, refetch } = useArticles();
+  const { data: articlesResponse, loading, error, refetch } = useArticles({ limit: 6 });
+  const articles = articlesResponse?.data || [];
 
   if (loading) {
     return (

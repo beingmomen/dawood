@@ -1,24 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Eye, Search, Filter, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Calendar, Eye, Search, Filter, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useArticles } from '../hooks/useApi';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorMessage from '../components/ui/ErrorMessage';
 
 const AllArticlesPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('الكل');
-  const { data: articlesData, loading, error, refetch } = useArticles();
+  
+  // Get current page from URL params
+  const currentPage = parseInt(searchParams.get('page') || '1');
+  
+  // API call with pagination
+  const { data: articlesResponse, loading, error, refetch } = useArticles({
+    page: currentPage,
+    limit: 12,
+    search: searchTerm,
+    category: selectedCategory !== 'الكل' ? selectedCategory : undefined
+  });
+
+  const articles = articlesResponse?.data || [];
+  const pagination = articlesResponse?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    hasNext: false,
+    hasPrev: false
+  };
 
   const categories = ['الكل', 'سياسة', 'اقتصاد', 'إعلام', 'حقوق إنسان', 'تعليم', 'صحة'];
 
-  const filteredArticles = (articlesData || []).filter(article => {
-    const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'الكل' || article.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  // Handle page change
+  const handlePageChange = (page) => {
+    setSearchParams({ page: page.toString() });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Handle search and filter changes
+  useEffect(() => {
+    // Reset to page 1 when search or category changes
+    if (currentPage !== 1) {
+      setSearchParams({ page: '1' });
+    }
+  }, [searchTerm, selectedCategory]);
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const totalPages = pagination.totalPages;
+    const current = pagination.currentPage;
+    
+    // Always show first page
+    if (totalPages > 0) pages.push(1);
+    
+    // Show pages around current page
+    for (let i = Math.max(2, current - 1); i <= Math.min(totalPages - 1, current + 1); i++) {
+      if (!pages.includes(i)) pages.push(i);
+    }
+    
+    // Always show last page if more than 1 page
+    if (totalPages > 1 && !pages.includes(totalPages)) {
+      pages.push(totalPages);
+    }
+    
+    return pages.sort((a, b) => a - b);
+  };
 
   if (loading) {
     return (
@@ -56,6 +105,11 @@ const AllArticlesPage = () => {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             مجموعة شاملة من المقالات والتحليلات في مختلف القضايا السياسية والاجتماعية
           </p>
+          {pagination.totalItems > 0 && (
+            <p className="text-sm text-gray-500 mt-4">
+              عرض {articles.length} من أصل {pagination.totalItems} مقال
+            </p>
+          )}
         </motion.div>
 
         {/* Search and Filter */}
@@ -95,70 +149,145 @@ const AllArticlesPage = () => {
         </motion.div>
 
         {/* Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.map((article, index) => (
-            <motion.div
-              key={article.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
-                />
-                <div className="absolute top-4 right-4">
-                  <span className="bg-brand text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {article.category}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
-                  {article.title}
-                </h3>
-                <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
-                  {article.excerpt}
-                </p>
-                
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                  <div className="flex items-center space-x-reverse space-x-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{new Date(article.date).toLocaleDateString('ar-EG')}</span>
-                  </div>
-                  <div className="flex items-center space-x-reverse space-x-4">
-                    <div className="flex items-center space-x-reverse space-x-1 hide-views">
-                      <Eye className="w-4 h-4" />
-                      <span>{article.views}</span>
-                    </div>
-                    <span className="hide-read-time">{article.readTime}</span>
-                  </div>
-                </div>
-                
-                <Link
-                  to={`/article/${article.id}`}
-                  className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"
+        {articles.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {articles.map((article, index) => (
+                <motion.div
+                  key={article.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                 >
-                  <span>اقرأ المزيد</span>
-                  <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-brand text-white px-3 py-1 rounded-full text-sm font-medium">
+                        {article.category}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-brand transition-colors">
+                      {article.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                      {article.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                      <div className="flex items-center space-x-reverse space-x-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(article.date).toLocaleDateString('ar-EG')}</span>
+                      </div>
+                      <div className="flex items-center space-x-reverse space-x-4">
+                        <div className="flex items-center space-x-reverse space-x-1 hide-views">
+                          <Eye className="w-4 h-4" />
+                          <span>{article.views}</span>
+                        </div>
+                        <span className="hide-read-time">{article.readTime}</span>
+                      </div>
+                    </div>
+                    
+                    <Link
+                      to={`/article/${article.id}`}
+                      className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"
+                    >
+                      <span>اقرأ المزيد</span>
+                      <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-        {/* No Results */}
-        {filteredArticles.length === 0 && (
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex justify-center items-center space-x-reverse space-x-2"
+              >
+                {/* Previous Button */}
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={!pagination.hasPrev}
+                  className="flex items-center space-x-reverse space-x-2 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                  <span>السابق</span>
+                </button>
+
+                {/* Page Numbers */}
+                <div className="flex space-x-reverse space-x-1">
+                  {getPageNumbers().map((pageNum, index, array) => (
+                    <React.Fragment key={pageNum}>
+                      {/* Add ellipsis if there's a gap */}
+                      {index > 0 && pageNum > array[index - 1] + 1 && (
+                        <span className="px-3 py-2 text-gray-500">...</span>
+                      )}
+                      
+                      <button
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                          pageNum === pagination.currentPage
+                            ? 'bg-brand text-white shadow-lg'
+                            : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-md'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                {/* Next Button */}
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={!pagination.hasNext}
+                  className="flex items-center space-x-reverse space-x-2 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span>التالي</span>
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              </motion.div>
+            )}
+          </>
+        ) : (
+          /* No Results */
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-12"
           >
-            <p className="text-xl text-gray-500">لا توجد مقالات تطابق البحث</p>
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-12 h-12 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">لا توجد مقالات</h3>
+            <p className="text-xl text-gray-500 mb-8">
+              {searchTerm || selectedCategory !== 'الكل' 
+                ? 'لا توجد مقالات تطابق البحث' 
+                : 'لم يتم العثور على أي مقالات'}
+            </p>
+            {(searchTerm || selectedCategory !== 'الكل') && (
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedCategory('الكل');
+                  setSearchParams({});
+                }}
+                className="bg-brand text-white px-6 py-3 rounded-lg hover:bg-brand-dark transition-colors"
+              >
+                مسح البحث
+              </button>
+            )}
           </motion.div>
         )}
       </div>

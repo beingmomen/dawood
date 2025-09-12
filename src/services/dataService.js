@@ -1,10 +1,97 @@
 import ApiService from './api.js';
 
 class DataService {
-  // Get all data from API endpoint
+  // Get paginated articles from dedicated endpoint
+  async getArticles(params = {}) {
+    try {
+      const { page = 1, limit = 12, ...otherParams } = params;
+      const response = await ApiService.get('/articles', {
+        page,
+        limit,
+        ...otherParams
+      });
+      
+      if (response.success && response.data) {
+        return {
+          data: response.data.articles?.map(article => ({
+            id: article._id || article.id,
+            title: article.title,
+            excerpt: article.description || article.content?.substring(0, 200) + '...',
+            content: article.content,
+            image: article.image,
+            date: article.date,
+            views: article.views || '0',
+            category: article.tags?.[0] || 'عام',
+            readTime: `${article.readTime || 5} دقائق`,
+            author: article.author || 'محمد عبدالعليم داود',
+            tags: article.tags || []
+          })) || [],
+          pagination: response.data.pagination || {
+            currentPage: page,
+            totalPages: 1,
+            totalItems: 0,
+            hasNext: false,
+            hasPrev: false
+          }
+        };
+      }
+      
+      throw new Error('Invalid API response format');
+    } catch (error) {
+      console.warn('Articles API unavailable, this is expected in development');
+      // Return empty data structure for development
+      return {
+        data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 1,
+          totalItems: 0,
+          hasNext: false,
+          hasPrev: false
+        }
+      };
+    }
+  }
+
+  async getArticle(id) {
+    try {
+      const response = await ApiService.get(`/articles/${id}`);
+      
+      if (response.success && response.data) {
+        const article = response.data;
+        return {
+          data: {
+            id: article._id || article.id,
+            title: article.title,
+            excerpt: article.description || article.content?.substring(0, 200) + '...',
+            content: article.content,
+            image: article.image,
+            date: article.date,
+            views: article.views || '0',
+            category: article.tags?.[0] || 'عام',
+            readTime: `${article.readTime || 5} دقائق`,
+            author: article.author || 'محمد عبدالعليم داود',
+            tags: article.tags || []
+          }
+        };
+      }
+      
+      throw new Error('Article not found');
+    } catch (error) {
+      console.warn('Article API unavailable, this is expected in development');
+      return { data: null };
+    }
+  }
+
+  // Get all data from API endpoint (for other components)
   async getAllData() {
-    const response = await ApiService.get('/data/all');
-    return response;
+    try {
+      const response = await ApiService.get('/data/all');
+      return response;
+    } catch (error) {
+      console.warn('API unavailable, this is expected in development');
+      throw error;
+    }
   }
 
   // Transform API data to match component expectations
@@ -105,20 +192,6 @@ class DataService {
         })) || []
       }
     };
-  }
-
-  // Articles
-  async getArticles(params = {}) {
-    const allData = await this.getAllData();
-    const transformedData = this.transformApiData(allData);
-    return { data: transformedData.articles };
-  }
-
-  async getArticle(id) {
-    const allData = await this.getAllData();
-    const transformedData = this.transformApiData(allData);
-    const article = transformedData.articles.find(a => a.id === id);
-    return { data: article };
   }
 
   // Personal Info

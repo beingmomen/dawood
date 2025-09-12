@@ -1,42 +1,42 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Linkedin, 
-  Youtube, 
-  Mail, 
-  Phone, 
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  Mail,
+  Phone,
   MapPin,
-  Heart
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { usePersonalInfo } from '../../hooks/useApi';
+  Heart,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { usePersonalInfo } from "../../hooks/useApi";
 
 const Footer = () => {
   const { data: personalInfo } = usePersonalInfo();
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'فيسبوك' },
-    { icon: Twitter, href: '#', label: 'تويتر' },
-    { icon: Instagram, href: '#', label: 'إنستغرام' },
-    { icon: Linkedin, href: '#', label: 'لينكد إن' },
-    { icon: Youtube, href: '#', label: 'يوتيوب' },
+    { icon: Facebook, href: "#", label: "فيسبوك" },
+    { icon: Twitter, href: "#", label: "تويتر" },
+    { icon: Instagram, href: "#", label: "إنستغرام" },
+    { icon: Linkedin, href: "#", label: "لينكد إن" },
+    { icon: Youtube, href: "#", label: "يوتيوب" },
   ];
 
   const quickLinks = [
-    { name: 'الرئيسية', href: '/' },
-    { name: 'المقالات', href: '/articles' },
-    { name: 'السيرة الذاتية', href: '/cv' },
-    { name: 'الوسائط', href: '/media' },
-    { name: 'البيانات الصحفية', href: '/press-statements' },
+    { name: "الرئيسية", href: "/" },
+    { name: "المقالات", href: "/articles" },
+    { name: "السيرة الذاتية", href: "/cv" },
+    { name: "الوسائط", href: "/media" },
+    { name: "البيانات الصحفية", href: "/press-statements" },
   ];
 
   const legalLinks = [
-    { name: 'سياسة الخصوصية', href: '/privacy-policy' },
-    { name: 'شروط الاستخدام', href: '/terms-of-service' },
-    { name: 'إخلاء المسؤولية', href: '/disclaimer' },
+    { name: "سياسة الخصوصية", href: "/privacy-policy" },
+    { name: "شروط الاستخدام", href: "/terms-of-service" },
+    { name: "إخلاء المسؤولية", href: "/disclaimer" },
   ];
 
   return (
@@ -52,27 +52,38 @@ const Footer = () => {
             className="lg:col-span-2"
           >
             <div className="mb-6">
-              <h3 className="text-2xl font-bold mb-2">{personalInfo?.name || 'محمد عبدالعليم داود'}</h3>
-              <p className="text-white/80">{personalInfo?.title || 'صحفي وعضو برلمان'}</p>
+              <h3 className="text-2xl font-bold mb-2">
+                {personalInfo?.name || "محمد عبدالعليم داود"}
+              </h3>
+              <p className="text-white/80">
+                {personalInfo?.title || "صحفي وعضو برلمان"}
+              </p>
             </div>
-            
+
             <p className="text-white/80 leading-relaxed mb-6 max-w-md">
-              {personalInfo?.summary || 'صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز.'}
+              {personalInfo?.summary ||
+                "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز."}
             </p>
 
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-reverse space-x-3">
                 <Mail className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">{personalInfo?.email || 'mohammed.journalist@email.com'}</span>
+                <span className="text-white/80">
+                  {personalInfo?.email || "mohammed.journalist@email.com"}
+                </span>
               </div>
               <div className="flex items-center space-x-reverse space-x-3">
                 <Phone className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">{personalInfo?.phone || '+20 10 123 4567'}</span>
+                <span className="text-white/80">
+                  {personalInfo?.phone || "+20 10 123 4567"}
+                </span>
               </div>
               <div className="flex items-center space-x-reverse space-x-3">
                 <MapPin className="w-5 h-5 text-white/60" />
-                <span className="text-white/80">{personalInfo?.location || 'القاهرة، جمهورية مصر العربية'}</span>
+                <span className="text-white/80">
+                  {personalInfo?.location || "القاهرة، جمهورية مصر العربية"}
+                </span>
               </div>
             </div>
           </motion.div>
@@ -150,7 +161,10 @@ const Footer = () => {
           className="border-t border-white/20 mt-12 pt-8 text-center"
         >
           <p className="text-white/60 flex items-center justify-center space-x-reverse space-x-2">
-            <span>© 2024 محمد عبدالعليم داود. جميع الحقوق محفوظة. صُنع بـ</span>
+            <span>
+              © {new Date().getFullYear()} محمد عبدالعليم داود. جميع الحقوق
+              محفوظة. صُنع بـ
+            </span>
             <Heart className="w-4 h-4 text-red-400" />
             <span>في جمهورية مصر العربية</span>
           </p>

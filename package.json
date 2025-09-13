@@ -13,12 +13,12 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.4",
-    "nuxt": "^3.8.0"
+    "nuxt": "^3.13.0"
   },
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.0.2",
     "@pinia/nuxt": "^0.5.1",
-    "pinia": "^2.1.7",
-    "lucide-vue-next": "^0.294.0"
+    "pinia": "^2.2.0",
+    "lucide-vue-next": "^0.400.0"
   }
 }

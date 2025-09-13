@@ -1,7 +1,15 @@
 export default defineNuxtConfig({
-  compatibilityDate: "2025-09-13",
+  compatibilityDate: "2024-11-01",
+  future: {
+    compatibilityVersion: 4,
+  },
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxt/icon"],
+  modules: [
+    "@nuxtjs/tailwindcss", 
+    "@pinia/nuxt", 
+    "@nuxtjs/google-fonts", 
+    "@nuxt/icon"
+  ],
   css: ["~/assets/css/main.css"],
   googleFonts: {
     families: {

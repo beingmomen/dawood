@@ -1,4 +1,4 @@
-import { LucideVue } from 'lucide-vue-next'
+import { LucideX as LucideVue } from 'lucide-vue-next'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(LucideVue)

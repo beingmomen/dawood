@@ -1,63 +1,79 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Calendar, FileText, Share2, Facebook, Twitter, Linkedin, ArrowRight, User, Eye } from 'lucide-react';
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Calendar,
+  FileText,
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  ArrowRight,
+  User,
+  Eye,
+  Loader2,
+} from "lucide-react";
+import { usePressStatement, usePersonalInfo } from "../hooks/useApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const PressStatementPage = () => {
   const { id } = useParams();
+  const { data: statement, loading, error } = usePressStatement(id);
+  const {
+    data: personalInfo,
+    loading: personalLoading,
+    error: personalError,
+  } = usePersonalInfo();
 
-  // Mock statement data
-  const statement = {
-    id: 1,
-    title: 'بيان حول أزمة التعليم العالي',
-    content: `
-      <p>يأتي هذا البيان في ضوء التحديات الكبيرة التي تواجه منظومة التعليم العالي في مصر، والحاجة الملحة لإصلاحات جذرية تضمن مواكبة التطورات العالمية وتلبية احتياجات سوق العمل.</p>
-      
-      <h2>التحديات الرئيسية:</h2>
-      <ul>
-        <li><strong>ضعف الربط بين مخرجات التعليم العالي ومتطلبات سوق العمل:</strong> هناك فجوة كبيرة بين ما يتعلمه الطلاب في الجامعات وما يحتاجه سوق العمل الفعلي، مما يؤدي إلى ارتفاع معدلات البطالة بين الخريجين.</li>
-        <li><strong>قلة الاستثمار في البحث العلمي والتطوير:</strong> تحتاج الجامعات إلى استثمارات أكبر في البحث العلمي لتكون قادرة على المنافسة عالمياً وإنتاج المعرفة.</li>
-        <li><strong>الحاجة إلى تطوير المناهج والبرامج الأكاديمية:</strong> المناهج الحالية تحتاج إلى تحديث مستمر لمواكبة التطورات التكنولوجية والعلمية.</li>
-        <li><strong>ضرورة تعزيز التعليم التقني والمهني:</strong> هناك حاجة ماسة لتطوير التعليم التقني والمهني كبديل قوي للتعليم الجامعي التقليدي.</li>
-      </ul>
-      
-      <h2>الحلول المقترحة:</h2>
-      <ul>
-        <li><strong>إنشاء مجلس أعلى للتعليم العالي:</strong> يضم ممثلين من القطاع الخاص والأكاديمي والحكومي لضمان التنسيق والتكامل في السياسات التعليمية.</li>
-        <li><strong>زيادة الاستثمار في البحث العلمي:</strong> رفع نسبة الإنفاق على البحث العلمي إلى 3% من الناتج المحلي الإجمالي خلال السنوات الخمس القادمة.</li>
-        <li><strong>تطوير برامج التدريب المهني والتقني:</strong> إنشاء معاهد متخصصة تركز على المهارات العملية المطلوبة في السوق.</li>
-        <li><strong>إنشاء صندوق لدعم الطلاب المتفوقين:</strong> لضمان عدم حرمان الطلاب المتميزين من التعليم العالي لأسباب مالية.</li>
-      </ul>
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background pt-20 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-brand mx-auto mb-4" />
+          <p className="text-gray-600">جاري تحميل البيان...</p>
+        </div>
+      </div>
+    );
+  }
 
-      <h2>التوصيات العملية:</h2>
-      <p>نوصي بتشكيل لجنة وطنية عليا لإصلاح التعليم العالي تضم خبراء من مختلف القطاعات، وتكون مهمتها وضع خطة شاملة للإصلاح خلال فترة زمنية محددة لا تتجاوز عامين.</p>
-
-      <p>كما نؤكد على أهمية إشراك جميع أطياف المجتمع في هذا الإصلاح، بما في ذلك الطلاب وأولياء الأمور والمجتمع المدني، لضمان نجاح هذه الجهود وتحقيق الأهداف المرجوة.</p>
-
-      <h2>الخلاصة:</h2>
-      <p>إن إصلاح التعليم العالي ليس مجرد ضرورة تنموية، بل هو استثمار في مستقبل الوطن وأجياله القادمة. ونحن ملتزمون بمتابعة هذا الملف والعمل مع جميع الجهات المعنية لتحقيق النقلة النوعية المطلوبة في منظومة التعليم العالي.</p>
-    `,
-    date: '2024-01-20',
-    category: 'تعليم',
-    urgent: true,
-    views: '15.2K',
-    shares: '1.8K',
-    author: 'محمد عبدالعليم داود',
-    tags: ['تعليم عالي', 'إصلاح تعليمي', 'بحث علمي', 'سوق العمل'],
-  };
+  // Error state
+  if (error || !statement) {
+    return (
+      <div className="min-h-screen bg-background pt-20 flex items-center justify-center">
+        <div className="text-center">
+          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            البيان غير موجود
+          </h2>
+          <p className="text-gray-600 mb-6">
+            عذراً، لم نتمكن من العثور على البيان المطلوب.
+          </p>
+          <Link
+            to="/press-statements"
+            className="inline-flex items-center space-x-reverse space-x-2 bg-brand text-white px-6 py-3 rounded-lg hover:bg-brand-dark transition-colors"
+          >
+            <ArrowRight className="w-5 h-5" />
+            <span>العودة إلى البيانات الصحفية</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const relatedStatements = [
     {
       id: 2,
-      title: 'موقف من قضايا البيئة والتغير المناخي',
-      date: '2024-01-15',
-      category: 'بيئة',
+      title: "موقف من قضايا البيئة والتغير المناخي",
+      date: "2024-01-15",
+      category: "بيئة",
     },
     {
       id: 3,
-      title: 'تصريح حول الإصلاحات الاقتصادية',
-      date: '2024-01-08',
-      category: 'اقتصاد',
+      title: "تصريح حول الإصلاحات الاقتصادية",
+      date: "2024-01-08",
+      category: "اقتصاد",
     },
   ];
 
@@ -71,9 +87,13 @@ const PressStatementPage = () => {
           className="mb-8"
         >
           <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
-            <Link to="/" className="hover:text-brand">الرئيسية</Link>
+            <Link to="/" className="hover:text-brand">
+              الرئيسية
+            </Link>
             <span>/</span>
-            <Link to="/press-statements" className="hover:text-brand">البيانات الصحفية</Link>
+            <Link to="/press-statements" className="hover:text-brand">
+              البيانات الصحفية
+            </Link>
             <span>/</span>
             <span className="text-brand">{statement.title}</span>
           </div>
@@ -95,16 +115,20 @@ const PressStatementPage = () => {
                     <FileText className="w-6 h-6 text-brand" />
                   </div>
                   <div className="flex items-center space-x-reverse space-x-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      statement.urgent 
-                        ? 'bg-red-100 text-red-800' 
-                        : 'bg-brand/10 text-brand'
-                    }`}>
-                      {statement.urgent ? 'عاجل' : statement.category}
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        statement.urgent
+                          ? "bg-red-100 text-red-800"
+                          : "bg-brand/10 text-brand"
+                      }`}
+                    >
+                      {statement.urgent ? "عاجل" : statement.category}
                     </span>
                     <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
                       <Calendar className="w-4 h-4" />
-                      <span>{new Date(statement.date).toLocaleDateString('ar-EG')}</span>
+                      <span>
+                        {new Date(statement.date).toLocaleDateString("ar-EG")}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -131,7 +155,7 @@ const PressStatementPage = () => {
                 </div>
 
                 {/* Content */}
-                <div 
+                <div
                   className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: statement.content }}
                 />
@@ -182,18 +206,52 @@ const PressStatementPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="bg-white rounded-2xl p-6 shadow-lg mb-8"
             >
-              <div className="text-center">
-                <img
-                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
-                  alt="محمد عبدالعليم داود"
-                  className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-bold text-brand-dark mb-2">محمد عبدالعليم داود</h3>
-                <p className="text-gray-600 mb-4">صحفي وعضو برلمان</p>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة.
-                </p>
-              </div>
+              {personalLoading ? (
+                <div className="text-center py-8">
+                  <LoadingSpinner text="جاري تحميل المعلومات الشخصية..." />
+                </div>
+              ) : personalError ? (
+                <div className="text-center py-8">
+                  <ErrorMessage message="خطأ في تحميل المعلومات الشخصية" />
+                </div>
+              ) : personalInfo ? (
+                <div className="text-center">
+                  <img
+                    src={
+                      personalInfo.image ||
+                      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
+                    }
+                    alt={personalInfo.name || "محمد عبدالعليم داود"}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  />
+                  <h3 className="text-xl font-bold text-brand-dark mb-2">
+                    {personalInfo.name || "محمد عبدالعليم داود"}
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    {personalInfo.title || "صحفي وعضو برلمان"}
+                  </p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {personalInfo.summary ||
+                      "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة."}
+                  </p>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <img
+                    src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
+                    alt="محمد عبدالعليم داود"
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  />
+                  <h3 className="text-xl font-bold text-brand-dark mb-2">
+                    محمد عبدالعليم داود
+                  </h3>
+                  <p className="text-gray-600 mb-4">صحفي وعضو برلمان</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى
+                    لتحقيق العدالة الاجتماعية والتنمية المستدامة.
+                  </p>
+                </div>
+              )}
             </motion.div>
 
             {/* Related Statements */}
@@ -203,7 +261,9 @@ const PressStatementPage = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-white rounded-2xl p-6 shadow-lg"
             >
-              <h3 className="text-xl font-bold text-brand-dark mb-6">بيانات ذات صلة</h3>
+              <h3 className="text-xl font-bold text-brand-dark mb-6">
+                بيانات ذات صلة
+              </h3>
               <div className="space-y-4">
                 {relatedStatements.map((relatedStatement) => (
                   <Link
@@ -219,7 +279,11 @@ const PressStatementPage = () => {
                         <span className="bg-gray-100 px-2 py-1 rounded text-xs">
                           {relatedStatement.category}
                         </span>
-                        <span>{new Date(relatedStatement.date).toLocaleDateString('ar-SA')}</span>
+                        <span>
+                          {new Date(relatedStatement.date).toLocaleDateString(
+                            "ar-SA"
+                          )}
+                        </span>
                       </div>
                     </div>
                   </Link>

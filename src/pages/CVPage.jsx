@@ -90,10 +90,11 @@ const CVPage = () => {
                 </div>
               </div>
 
-              <button className="w-full mt-6 bg-brand text-white py-3 rounded-lg font-medium hover:bg-brand-dark transition-colors flex items-center justify-center space-x-reverse space-x-2">
+              {/* Download CV Button - Hidden */}
+              {/* <button className="w-full mt-6 bg-brand text-white py-3 rounded-lg font-medium hover:bg-brand-dark transition-colors flex items-center justify-center space-x-reverse space-x-2">
                 <Download className="w-5 h-5" />
                 <span>تحميل السيرة الذاتية</span>
-              </button>
+              </button> */}
             </motion.div>
 
           </div>

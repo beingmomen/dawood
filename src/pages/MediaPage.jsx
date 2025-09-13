@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Image, Video, FileText, Play, Download, Eye, Search, Filter } from 'lucide-react';
-import { useMedia } from '../hooks/useApi';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import ErrorMessage from '../components/ui/ErrorMessage';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Image,
+  Video,
+  FileText,
+  Play,
+  Download,
+  Eye,
+  Search,
+  Filter,
+} from "lucide-react";
+import { useMedia } from "../hooks/useApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const MediaPage = () => {
-  const [activeTab, setActiveTab] = useState('images');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState("images");
+  const [searchTerm, setSearchTerm] = useState("");
   const { data: mediaData, loading, error, refetch } = useMedia();
 
   const tabs = [
-    { id: 'images', label: 'الصور', icon: Image },
-    { id: 'videos', label: 'الفيديوهات', icon: Video },
-    { id: 'documents', label: 'المستندات', icon: FileText },
+    { id: "images", label: "الصور", icon: Image },
+    { id: "videos", label: "الفيديوهات", icon: Video },
+    { id: "documents", label: "المستندات", icon: FileText },
   ];
 
-
-
-  const filteredData = (mediaData?.[activeTab] || []).filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = (mediaData?.[activeTab] || []).filter(
+    (item) =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
@@ -57,7 +65,8 @@ const MediaPage = () => {
             مكتبة الوسائط
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            مجموعة شاملة من الصور والفيديوهات والمستندات التي توثق الأنشطة والإنجازات
+            مجموعة شاملة من الصور والفيديوهات والمستندات التي توثق الأنشطة
+            والإنجازات
           </p>
         </motion.div>
 
@@ -68,7 +77,7 @@ const MediaPage = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white rounded-2xl p-6 shadow-lg mb-8"
         >
-          <div className="relative max-w-md mx-auto">
+          <div className="relative w-full">
             <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
@@ -93,11 +102,11 @@ const MediaPage = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-reverse space-x-2 px-8 py-4 rounded-full font-medium transition-all duration-300 ${
-                  tab.id === 'documents' ? 'hide-documents-section' : ''
+                  tab.id === "documents" ? "hide-documents-section" : ""
                 } ${
                   activeTab === tab.id
-                    ? 'bg-brand text-white shadow-lg'
-                    : 'text-gray-600 hover:text-brand hover:bg-gray-50'
+                    ? "bg-brand text-white shadow-lg"
+                    : "text-gray-600 hover:text-brand hover:bg-gray-50"
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -116,7 +125,7 @@ const MediaPage = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
           >
-            {activeTab === 'images' && (
+            {activeTab === "images" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredData.map((image, index) => (
                   <motion.div
@@ -136,9 +145,15 @@ const MediaPage = () => {
                         <span className="bg-brand px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
                           {image.category}
                         </span>
-                        <h3 className="font-bold mb-1 text-sm">{image.title}</h3>
-                        <p className="text-xs text-white/80 line-clamp-2">{image.description}</p>
-                        <p className="text-xs text-white/60 mt-1">{new Date(image.date).toLocaleDateString('ar-EG')}</p>
+                        <h3 className="font-bold mb-1 text-sm">
+                          {image.title}
+                        </h3>
+                        <p className="text-xs text-white/80 line-clamp-2">
+                          {image.description}
+                        </p>
+                        <p className="text-xs text-white/60 mt-1">
+                          {new Date(image.date).toLocaleDateString("ar-EG")}
+                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -146,7 +161,7 @@ const MediaPage = () => {
               </div>
             )}
 
-            {activeTab === 'videos' && (
+            {activeTab === "videos" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredData.map((video, index) => (
                   <motion.div
@@ -167,8 +182,12 @@ const MediaPage = () => {
                       ></iframe>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">{video.title}</h3>
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">{video.description}</p>
+                      <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">
+                        {video.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {video.description}
+                      </p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <div className="flex items-center space-x-reverse space-x-2">
                           <Eye className="w-4 h-4" />
@@ -176,7 +195,9 @@ const MediaPage = () => {
                         </div>
                         <div className="flex items-center space-x-reverse space-x-4">
                           <span>{video.duration}</span>
-                          <span>{new Date(video.date).toLocaleDateString('ar-EG')}</span>
+                          <span>
+                            {new Date(video.date).toLocaleDateString("ar-EG")}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -185,7 +206,7 @@ const MediaPage = () => {
               </div>
             )}
 
-            {activeTab === 'documents' && (
+            {activeTab === "documents" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hide-documents-section">
                 {filteredData.map((doc, index) => (
                   <motion.div
@@ -200,14 +221,20 @@ const MediaPage = () => {
                         <FileText className="w-6 h-6 text-red-600" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">{doc.title}</h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{doc.description}</p>
+                        <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">
+                          {doc.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                          {doc.description}
+                        </p>
                         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                           <div className="flex items-center space-x-reverse space-x-4">
                             <span>{doc.type}</span>
                             <span>{doc.size}</span>
                           </div>
-                          <span>{new Date(doc.date).toLocaleDateString('ar-EG')}</span>
+                          <span>
+                            {new Date(doc.date).toLocaleDateString("ar-EG")}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">

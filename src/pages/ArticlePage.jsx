@@ -19,7 +19,11 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 const ArticlePage = () => {
   const { id } = useParams();
   const { data: article, loading, error, refetch } = useArticle(id);
-  const { data: personalInfo, loading: personalLoading, error: personalError } = usePersonalInfo();
+  const {
+    data: personalInfo,
+    loading: personalLoading,
+    error: personalError,
+  } = usePersonalInfo();
 
   if (loading) {
     return (
@@ -183,16 +187,22 @@ const ArticlePage = () => {
               ) : personalInfo ? (
                 <div className="text-center">
                   <img
-                    src={personalInfo.profileImage || "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"}
+                    src={
+                      personalInfo.image ||
+                      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
+                    }
                     alt={personalInfo.name || "محمد عبدالعليم داود"}
                     className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
                   />
                   <h3 className="text-xl font-bold text-brand-dark mb-2">
                     {personalInfo.name || "محمد عبدالعليم داود"}
                   </h3>
-                  <p className="text-gray-600 mb-4">{personalInfo.title || "صحفي وعضو برلمان"}</p>
+                  <p className="text-gray-600 mb-4">
+                    {personalInfo.title || "صحفي وعضو برلمان"}
+                  </p>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    {personalInfo.bio || "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة."}
+                    {personalInfo.summary ||
+                      "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة."}
                   </p>
                 </div>
               ) : (

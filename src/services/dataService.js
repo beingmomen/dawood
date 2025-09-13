@@ -30,7 +30,7 @@ class DataService {
               image: article.image,
               date: article.date,
               views: article.views || "0",
-              category: article.tags?.[0] || "عام",
+              category: article?.category?.name || "عام",
               readTime: `${article.readTime || 5} دقائق`,
               author: article.author || "محمد عبدالعليم داود",
               tags: article.tags || [],
@@ -99,7 +99,11 @@ class DataService {
     try {
       const response = await ApiService.get(`/articles/${id}`);
 
-      if (response.status === "success" && response.data && response.data.data) {
+      if (
+        response.status === "success" &&
+        response.data &&
+        response.data.data
+      ) {
         const article = response.data.data;
         return {
           data: {
@@ -111,7 +115,7 @@ class DataService {
             image: article.image,
             date: article.date,
             views: article.views || "0",
-            category: article.tags?.[0] || "عام",
+            category: article?.category?.name || "عام",
             readTime: `${article.readTime || 5} دقائق`,
             author: article.author || "محمد عبدالعليم داود",
             tags: article.tags || [],
@@ -121,8 +125,47 @@ class DataService {
 
       throw new Error("Article not found");
     } catch (error) {
-      console.warn("Article API unavailable, this is expected in development");
-      return { data: null };
+      console.warn("Article API unavailable, using demo data");
+      // Return demo article data when API is unavailable
+      return {
+        data: {
+          id: id || "demo-1",
+          title: "مقال تجريبي - التحديات الاقتصادية وحلولها المبتكرة",
+          excerpt:
+            "تواجه الاقتصادات العربية تحديات جمة في ظل التطورات العالمية المتسارعة والتغيرات الجيوسياسية المؤثرة على الأسواق العالمية...",
+          content: `
+            <p>تواجه الاقتصادات العربية تحديات جمة في ظل التطورات العالمية المتسارعة والتغيرات الجيوسياسية المؤثرة على الأسواق العالمية. هذه التحديات تتطلب حلولاً مبتكرة ورؤية استراتيجية واضحة للتعامل معها بفعالية.</p>
+            
+            <h2>التحديات الرئيسية</h2>
+            <p>من أبرز التحديات التي تواجه المنطقة العربية:</p>
+            <ul>
+              <li>التضخم المتزايد وارتفاع أسعار السلع الأساسية</li>
+              <li>تقلبات أسعار النفط وتأثيرها على الموازنات العامة</li>
+              <li>البطالة بين الشباب والحاجة لخلق فرص عمل جديدة</li>
+              <li>التحول الرقمي ومواكبة التطورات التكنولوجية</li>
+            </ul>
+            
+            <h2>الحلول المقترحة</h2>
+            <p>لمواجهة هذه التحديات، نحتاج إلى:</p>
+            <ol>
+              <li>تنويع مصادر الدخل وتقليل الاعتماد على النفط</li>
+              <li>الاستثمار في التعليم والتدريب المهني</li>
+              <li>دعم المشاريع الصغيرة والمتوسطة</li>
+              <li>تطوير البنية التحتية الرقمية</li>
+            </ol>
+            
+            <p>إن التعامل مع هذه التحديات يتطلب تضافر الجهود بين القطاعين العام والخاص، وتبني سياسات اقتصادية مرنة تواكب المتغيرات العالمية.</p>
+          `,
+          image:
+            "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+          date: "2024-01-15T10:00:00.000Z",
+          views: "1,234",
+          category: "اقتصاد",
+          readTime: "5 دقائق",
+          author: "محمد عبدالعليم داود",
+          tags: ["اقتصاد", "تنمية", "استثمار", "تحديات"],
+        },
+      };
     }
   }
 
@@ -251,9 +294,7 @@ class DataService {
           iconName: achievement.iconName || "award",
           title: achievement.title,
           description: achievement.content || achievement.description,
-          year: achievement.year
-            ? new Date(achievement.year).getFullYear().toString()
-            : "2023",
+          year: achievement.year,
           colorName: achievement.colorName || "yellow",
         })) || [],
 
@@ -266,6 +307,11 @@ class DataService {
             location: data.personalInfo.items[0].location,
             summary: data.personalInfo.items[0].summary,
             image: data.personalInfo.items[0].image,
+            facebookLink: data.personalInfo.items[0].facebookLink,
+            twitterLink: data.personalInfo.items[0].twitterLink,
+            instagramLink: data.personalInfo.items[0].instagramLink,
+            linkedinLink: data.personalInfo.items[0].linkedinLink,
+            youtubeLink: data.personalInfo.items[0].youtubeLink,
             education:
               data.personalInfo.items[0].education?.map((edu) => ({
                 degree: edu.degree,

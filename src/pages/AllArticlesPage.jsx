@@ -34,7 +34,6 @@ const AllArticlesPage = () => {
     category: selectedCategory !== "الكل" ? selectedCategory : undefined,
   });
 
-  console.warn("responseData", responseData);
   const articlesData = responseData || [];
   const paginationData = responseData?.pagination || {
     currentPage: currentPage,
@@ -138,7 +137,7 @@ const AllArticlesPage = () => {
           )}
         </motion.div>
 
-        {/* Search and Filter */}
+        {/* Search - Filter Hidden */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -158,8 +157,8 @@ const AllArticlesPage = () => {
               />
             </div>
 
-            {/* Categories */}
-            <div className="flex items-center space-x-reverse space-x-2">
+            {/* Categories Filter - Hidden */}
+            {/* <div className="flex items-center space-x-reverse space-x-2">
               <Filter className="text-gray-400 w-5 h-5" />
               <select
                 value={selectedCategory}
@@ -172,7 +171,7 @@ const AllArticlesPage = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
         </motion.div>
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { getIcon, getColor } from '../../utils/iconMap';
-import { useAchievements } from '../../hooks/useApi';
-import LoadingSpinner from '../ui/LoadingSpinner';
-import ErrorMessage from '../ui/ErrorMessage';
+import React from "react";
+import { motion } from "framer-motion";
+import { getIcon, getColor } from "../../utils/iconMap";
+import { useAchievements } from "../../hooks/useApi";
+import LoadingSpinner from "../ui/LoadingSpinner";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const Achievements = () => {
   const { data: achievements, loading, error, refetch } = useAchievements();
@@ -50,26 +50,34 @@ const Achievements = () => {
           {(achievements || []).map((achievement, index) => {
             const IconComponent = getIcon(achievement.iconName);
             const colorClass = getColor(achievement.colorName);
-            
+
             return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-            >
-              <div className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center mb-6 mx-auto`}>
-                <IconComponent className="w-8 h-8 text-white" />
-              </div>
-              
-              <div className="text-center">
-                <div className="text-sm font-bold text-brand mb-2">{achievement.year}</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">{achievement.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{achievement.description}</p>
-              </div>
-            </motion.div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+              >
+                <div
+                  className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center mb-6 mx-auto`}
+                >
+                  <IconComponent className="w-8 h-8 text-white" />
+                </div>
+
+                <div className="text-center">
+                  <div className="text-sm font-bold text-brand mb-2">
+                    {achievement.year}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                    {achievement.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {achievement.description}
+                  </p>
+                </div>
+              </motion.div>
             );
           })}
         </div>

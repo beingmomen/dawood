@@ -207,9 +207,7 @@ export const useApi = (apiCall, dependencies = [], options = {}) => {
 export const useArticles = (params = {}) => {
   return useApi(async () => {
     const DataService = (await import("../services/dataService.js")).default;
-    const data = await DataService.getArticles(params);
-    console.warn("DataService", data);
-    return data;
+    return DataService.getArticles(params);
   }, [JSON.stringify(params)]);
 };
 

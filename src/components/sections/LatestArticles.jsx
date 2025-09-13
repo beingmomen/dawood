@@ -16,8 +16,6 @@ const LatestArticles = () => {
   } = useArticles({ limit: 6 });
   const articles = articlesResponse || [];
 
-  console.warn("articles", articles);
-
   if (loading) {
     return (
       <section id="articles" className="py-20 bg-background">

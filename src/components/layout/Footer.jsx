@@ -18,11 +18,15 @@ const Footer = () => {
   const { data: personalInfo } = usePersonalInfo();
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "فيسبوك" },
-    { icon: Twitter, href: "#", label: "تويتر" },
-    { icon: Instagram, href: "#", label: "إنستغرام" },
-    { icon: Linkedin, href: "#", label: "لينكد إن" },
-    { icon: Youtube, href: "#", label: "يوتيوب" },
+    {
+      icon: Facebook,
+      href: personalInfo?.facebookLink || "#",
+      label: "فيسبوك",
+    },
+    // { icon: Twitter, href: "#", label: "تويتر" },
+    // { icon: Instagram, href: "#", label: "إنستغرام" },
+    // { icon: Linkedin, href: "#", label: "لينكد إن" },
+    { icon: Youtube, href: personalInfo?.youtubeLink || "#", label: "يوتيوب" },
   ];
 
   const quickLinks = [
@@ -143,6 +147,7 @@ const Footer = () => {
                     whileTap={{ scale: 0.9 }}
                     className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
                     aria-label={social.label}
+                    target="_blank"
                   >
                     <social.icon className="w-5 h-5" />
                   </motion.a>

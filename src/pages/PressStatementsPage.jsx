@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, FileText, ArrowLeft, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { usePressStatements } from '../hooks/useApi';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import ErrorMessage from '../components/ui/ErrorMessage';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Calendar, FileText, ArrowLeft, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { usePressStatements } from "../hooks/useApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const PressStatementsPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const { data: statementsData, loading, error, refetch } = usePressStatements();
+  const [searchTerm, setSearchTerm] = useState("");
+  const {
+    data: statementsData,
+    loading,
+    error,
+    refetch,
+  } = usePressStatements();
 
-  const filteredStatements = (statementsData || []).filter(statement => {
-    const matchesSearch = statement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         statement.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredStatements = (statementsData || []).filter((statement) => {
+    const matchesSearch =
+      statement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      statement.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
@@ -50,7 +56,8 @@ const PressStatementsPage = () => {
             البيانات الصحفية
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            مجموعة شاملة من البيانات والتصريحات الصحفية حول القضايا المهمة والمواقف الرسمية
+            مجموعة شاملة من البيانات والتصريحات الصحفية حول القضايا المهمة
+            والمواقف الرسمية
           </p>
         </motion.div>
 
@@ -61,7 +68,7 @@ const PressStatementsPage = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white rounded-2xl p-6 shadow-lg mb-12"
         >
-          <div className="relative max-w-md mx-auto">
+          <div className="relative w-full">
             <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
@@ -90,16 +97,20 @@ const PressStatementsPage = () => {
                       <FileText className="w-6 h-6 text-brand" />
                     </div>
                     <div className="flex items-center space-x-reverse space-x-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        statement.urgent 
-                          ? 'bg-red-100 text-red-800' 
-                          : 'bg-brand/10 text-brand'
-                      }`}>
-                        {statement.urgent ? 'عاجل' : statement.category}
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          statement.urgent
+                            ? "bg-red-100 text-red-800"
+                            : "bg-brand/10 text-brand"
+                        }`}
+                      >
+                        {statement.urgent ? "عاجل" : statement.category}
                       </span>
                       <div className="flex items-center space-x-reverse space-x-2 text-sm text-gray-500">
                         <Calendar className="w-4 h-4" />
-                        <span>{new Date(statement.date).toLocaleDateString('ar-EG')}</span>
+                        <span>
+                          {new Date(statement.date).toLocaleDateString("ar-EG")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -107,7 +118,7 @@ const PressStatementsPage = () => {
                   <h2 className="text-2xl font-bold text-gray-800 mb-4 hover:text-brand transition-colors">
                     {statement.title}
                   </h2>
-                  
+
                   <p className="text-gray-600 leading-relaxed mb-6">
                     {statement.excerpt}
                   </p>
@@ -117,7 +128,7 @@ const PressStatementsPage = () => {
                       <span>{statement.views} مشاهدة</span>
                       <span>{statement.shares} مشاركة</span>
                     </div>
-                    
+
                     <Link
                       to={`/press-statement/${statement.id}`}
                       className="flex items-center space-x-reverse space-x-2 text-brand font-medium hover:text-brand-dark transition-colors group"

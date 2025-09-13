@@ -32,10 +32,7 @@ jobs:
         run: pnpm install
 
       - name: build project
-        run: pnpm run build --if-present
-
-      - name: Start project
-        run: pm2 start "npx serve -s dist -l 5257" --name "my-vite-app-demo"
+        run: pnpm build --if-present
 
   deploy-prod:
     runs-on: [self-hosted, prod]

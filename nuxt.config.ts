@@ -1,12 +1,15 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-09-13",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxt/icon"],
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxtjs/lucide"],
   css: ["~/assets/css/main.css"],
   googleFonts: {
     families: {
       Tajawal: [300, 400, 500, 700],
     },
+  },
+  lucide: {
+    namePrefix: 'Icon'
   },
   app: {
     head: {

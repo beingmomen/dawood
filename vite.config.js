@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: parseInt(env.PORT) || 5173,
+      host: true, // Expose to network
     },
     optimizeDeps: {
       exclude: ['lucide-react'],

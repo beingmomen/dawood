@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
 
       - name: Start project
-        run: pm2 start pnpm --name "my-vite-app-dev" -- dev
+        run: pm2 start "pnpm dev" --name vite-app
 
   deploy-prod:
     runs-on: [self-hosted, prod]

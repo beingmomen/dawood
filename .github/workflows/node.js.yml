@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
 
       - name: build project
-        run: pnpm build --if-present
+        run: pnpm build
 
   deploy-prod:
     runs-on: [self-hosted, prod]

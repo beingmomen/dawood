@@ -8,7 +8,7 @@
         'flex items-center space-x-reverse space-x-2 px-4 py-2 rounded-lg font-medium transition-colors',
         hasPrev
           ? 'bg-brand text-white hover:bg-brand-dark'
-          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+          : 'bg-gray-200 text-gray-400 cursor-not-allowed',
       ]"
     >
       <Icon name="lucide:chevron-right" class="w-5 h-5" />
@@ -25,7 +25,7 @@
             'w-10 h-10 rounded-lg font-medium transition-colors',
             page === currentPage
               ? 'bg-brand text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
           ]"
         >
           {{ page }}
@@ -42,7 +42,7 @@
         'flex items-center space-x-reverse space-x-2 px-4 py-2 rounded-lg font-medium transition-colors',
         hasNext
           ? 'bg-brand text-white hover:bg-brand-dark'
-          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+          : 'bg-gray-200 text-gray-400 cursor-not-allowed',
       ]"
     >
       <span>التالي</span>
@@ -52,62 +52,62 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   currentPage: {
     type: Number,
-    required: true
+    required: true,
   },
   totalPages: {
     type: Number,
-    required: true
+    required: true,
   },
   hasNext: {
     type: Boolean,
-    default: false
+    default: false,
   },
   hasPrev: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-defineEmits(['page-change'])
+defineEmits(["page-change"]);
 
 const visiblePages = computed(() => {
-  const pages = []
-  const { currentPage, totalPages } = props
+  const pages = [];
+  const { currentPage, totalPages } = props;
 
   if (totalPages <= 7) {
     // Show all pages if total is 7 or less
     for (let i = 1; i <= totalPages; i++) {
-      pages.push(i)
+      pages.push(i);
     }
   } else {
     // Always show first page
-    pages.push(1)
+    pages.push(1);
 
     if (currentPage > 4) {
-      pages.push('...')
+      pages.push("...");
     }
 
     // Show pages around current page
-    const start = Math.max(2, currentPage - 1)
-    const end = Math.min(totalPages - 1, currentPage + 1)
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
 
     for (let i = start; i <= end; i++) {
-      pages.push(i)
+      pages.push(i);
     }
 
     if (currentPage < totalPages - 3) {
-      pages.push('...')
+      pages.push("...");
     }
 
     // Always show last page
     if (totalPages > 1) {
-      pages.push(totalPages)
+      pages.push(totalPages);
     }
   }
 
-  return pages
-})
+  return pages;
+});
 </script>

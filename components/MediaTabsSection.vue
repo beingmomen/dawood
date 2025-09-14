@@ -81,7 +81,7 @@
         <div v-else-if="activeTab === 'videos'" class="animate-fade-in">
           <div
             v-if="videos.length > 0"
-            class="grid grid-cols-1 md:grid-cols-2 gap-8"
+            class="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             <div
               v-for="video in videos"
@@ -148,6 +148,17 @@
           <div v-else class="text-center py-12">
             <p class="text-gray-600">لا توجد مستندات متاحة حالياً</p>
           </div>
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-12">
+          <NuxtLink
+            to="/media"
+            class="inline-flex items-center space-x-reverse space-x-2 bg-brand text-white px-8 py-4 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            <span>عرض جميع الوسائط</span>
+            <Icon name="lucide:arrow-left" class="w-5 h-5" />
+          </NuxtLink>
         </div>
       </div>
     </div>

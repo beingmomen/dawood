@@ -51,7 +51,7 @@
                 <Icon name="lucide:calendar" class="w-4 h-4" />
                 <span>{{ formatDate(article.date) }}</span>
               </div>
-              <div class="flex items-center space-x-reverse space-x-2">
+              <div class="flex items-center space-x-reverse space-x-2 hide-read-time">
                 <Icon name="lucide:clock" class="w-4 h-4" />
                 <span>{{ article.readTime }}</span>
               </div>

@@ -11,17 +11,20 @@
         </p>
       </div>
 
-      <!-- Media Tabs -->
-      <MediaTabsSection />
+      <!-- Media Grid with API Integration -->
+      <MediaGrid />
     </div>
   </div>
 </template>
 
 <script setup>
 useHead({
-  title: 'الوسائط المتعددة - محمد عبدالعليم داود',
+  title: "الوسائط المتعددة - محمد عبدالعليم داود",
   meta: [
-    { name: 'description', content: 'مجموعة من الصور والفيديوهات والمستندات المهمة' }
-  ]
-})
+    {
+      name: "description",
+      content: "مجموعة من الصور والفيديوهات والمستندات المهمة",
+    },
+  ],
+});
 </script>

@@ -101,48 +101,63 @@ const router = useRouter()
 // Reactive state
 const searchTerm = ref('')
 const currentPage = ref(parseInt(route.query.page) || 1)
-
-// Global data
-const globalData = useState('globalData')
 const pending = ref(false)
 const error = ref(null)
+const apiResponse = ref(null)
 
-// Computed properties
-const allArticles = computed(() => globalData.value?.articles || [])
-const filteredArticles = computed(() => {
-  const articles = allArticles.value
-  if (!Array.isArray(articles)) return []
-  if (!searchTerm.value) return articles
-  return articles.filter(article => 
-    article.title?.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-    article.excerpt?.toLowerCase().includes(searchTerm.value.toLowerCase())
-  )
-})
+// Computed properties from API response
+const articles = computed(() => apiResponse.value?.data || [])
+const totalItems = computed(() => apiResponse.value?.total || 0)
+const totalPages = computed(() => apiResponse.value?.totalPages || 0)
+const hasNext = computed(() => apiResponse.value?.hasNext || false)
+const hasPrev = computed(() => apiResponse.value?.hasPrev || false)
 
-const itemsPerPage = 12
-const totalItems = computed(() => {
-  const filtered = filteredArticles.value
-  return Array.isArray(filtered) ? filtered.length : 0
-})
-const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage))
-const articles = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  const filtered = filteredArticles.value
-  if (!Array.isArray(filtered)) return []
-  return filtered.slice(start, end)
-})
-const hasNext = computed(() => currentPage.value < totalPages.value)
-const hasPrev = computed(() => currentPage.value > 1)
+// Fetch articles from external API
+const fetchArticles = async () => {
+  try {
+    pending.value = true
+    error.value = null
+    
+    const params = {
+      page: currentPage.value,
+      limit: 12
+    }
+    
+    if (searchTerm.value) {
+      params.search = searchTerm.value
+    }
+    
+    const response = await $fetch('https://demo-api.abdaleemdawood.com/api/v1/articles', {
+      query: params
+    })
+    
+    // Transform response to match expected structure
+    apiResponse.value = {
+      ...response,
+      totalPages: Math.ceil(response.total / 12),
+      hasNext: currentPage.value < Math.ceil(response.total / 12),
+      hasPrev: currentPage.value > 1
+    }
+  } catch (err) {
+    error.value = err
+    console.error('Error fetching articles:', err)
+  } finally {
+    pending.value = false
+  }
+}
 
 const refresh = () => {
-  // Refresh logic if needed
+  fetchArticles()
 }
 
 // Methods
 const handlePageChange = (page) => {
   currentPage.value = page
-  router.push({ query: { ...route.query, page } })
+  const query = { ...route.query, page }
+  if (searchTerm.value) {
+    query.search = searchTerm.value
+  }
+  router.push({ query })
   if (process.client) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -150,21 +165,38 @@ const handlePageChange = (page) => {
 
 const clearSearch = () => {
   searchTerm.value = ''
+  currentPage.value = 1
   router.push({ query: {} })
+  fetchArticles()
 }
 
 // Debounced search
 const debouncedSearch = useDebounceFn(() => {
-  if (currentPage.value !== 1) {
-    router.push({ query: { page: 1 } })
+  currentPage.value = 1
+  const query = { page: 1 }
+  if (searchTerm.value) {
+    query.search = searchTerm.value
   }
-  refresh()
+  router.push({ query })
+  fetchArticles()
 }, 300)
 
 // Watch for route changes
 watch(() => route.query.page, (newPage) => {
   currentPage.value = parseInt(newPage) || 1
-  refresh()
+  fetchArticles()
+})
+
+// Watch for search term in URL
+watch(() => route.query.search, (newSearch) => {
+  searchTerm.value = newSearch || ''
+})
+
+// Initialize data on mount
+onMounted(() => {
+  // Set search term from URL if present
+  searchTerm.value = route.query.search || ''
+  fetchArticles()
 })
 
 // SEO

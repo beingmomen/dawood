@@ -8,12 +8,16 @@
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="text-center py-12">
+      <div v-else-if="error || !article" class="text-center py-12">
         <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Icon name="lucide:alert-circle" class="w-8 h-8 text-red-500" />
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">المقال غير موجود</h3>
-        <p class="text-gray-600 mb-6">عذراً، لم نتمكن من العثور على المقال المطلوب.</p>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">
+          {{ error?.statusMessage || 'المقال غير موجود' }}
+        </h3>
+        <p class="text-gray-600 mb-6">
+          {{ error?.message || 'عذراً، لم نتمكن من العثور على المقال المطلوب.' }}
+        </p>
         <NuxtLink
           to="/articles"
           class="inline-flex items-center space-x-reverse space-x-2 bg-brand text-white px-6 py-3 rounded-lg hover:bg-brand-dark transition-colors"
@@ -49,7 +53,7 @@
                 />
                 <div class="absolute top-6 right-6">
                   <span class="bg-brand text-white px-4 py-2 rounded-full font-medium">
-                    {{ article.category }}
+                    {{ article.category?.name || article.category }}
                   </span>
                 </div>
               </div>
@@ -64,7 +68,7 @@
                 <div class="flex flex-wrap items-center gap-6 mb-8 text-gray-500">
                   <div class="flex items-center space-x-reverse space-x-2">
                     <Icon name="lucide:user" class="w-5 h-5" />
-                    <span>{{ article.author }}</span>
+                    <span>{{ article.author || 'محمد عبدالعليم داود' }}</span>
                   </div>
                   <div class="flex items-center space-x-reverse space-x-2">
                     <Icon name="lucide:calendar" class="w-5 h-5" />
@@ -147,20 +151,15 @@
 const route = useRoute()
 const { id } = route.params
 
-// Fetch article data from global state
-const globalData = useState('globalData')
-const pending = ref(false)
-const error = ref(null)
+// Fetch article data directly from external API
+const { data: articleResponse, pending, error } = await useFetch(`https://demo-api.abdaleemdawood.com/api/v1/articles/${id}`)
 
 const article = computed(() => {
-  const articles = globalData.value?.articles || []
-  return articles.find(a => a.id === id || a.id === parseInt(id))
+  if (articleResponse.value?.status === 'success') {
+    return articleResponse.value.data.data
+  }
+  return null
 })
-
-// Set error if article not found
-if (!article.value) {
-  error.value = { message: 'المقال غير موجود' }
-}
 
 // Format date helper
 const formatDate = (dateString) => {
@@ -169,9 +168,9 @@ const formatDate = (dateString) => {
 
 // SEO
 useHead({
-  title: () => article?.title ? `${article.title} - محمد عبدالعليم داود` : 'مقال - محمد عبدالعليم داود',
+  title: () => article.value?.title ? `${article.value.title} - محمد عبدالعليم داود` : 'مقال - محمد عبدالعليم داود',
   meta: [
-    { name: 'description', content: () => article?.excerpt || 'مقال من موقع محمد عبدالعليم داود' }
+    { name: 'description', content: () => article.value?.description || article.value?.excerpt || 'مقال من موقع محمد عبدالعليم داود' }
   ]
 })
 </script>

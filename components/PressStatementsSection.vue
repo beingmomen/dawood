@@ -18,15 +18,14 @@
           :style="{ animationDelay: `${index * 150}ms` }"
         >
           <div class="flex items-center justify-between mb-4">
-            <span :class="[
-              'px-3 py-1 rounded-full text-sm font-medium',
-              statement.priority === 'عاجل' ? 'bg-red-100 text-red-800' :
-              statement.priority === 'مهم' ? 'bg-orange-100 text-orange-800' :
-              'bg-blue-100 text-blue-800'
-            ]">
+            <span
+              class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+            >
               {{ statement.priority }}
             </span>
-            <div class="flex items-center space-x-reverse space-x-2 text-gray-500 text-sm">
+            <div
+              class="flex items-center space-x-reverse space-x-2 text-gray-500 text-sm"
+            >
               <Icon name="lucide:calendar" class="w-4 h-4" />
               <span>{{ formatDate(statement.date) }}</span>
             </div>
@@ -41,11 +40,15 @@
           </p>
 
           <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-reverse space-x-2 text-gray-500 text-sm hide-press-stats">
+            <div
+              class="flex items-center space-x-reverse space-x-2 text-gray-500 text-sm hide-press-stats"
+            >
               <Icon name="lucide:eye" class="w-4 h-4" />
               <span>{{ statement.views }} مشاهدة</span>
             </div>
-            <button class="inline-flex items-center space-x-reverse space-x-2 text-brand font-semibold hover:text-brand-dark transition-colors">
+            <button
+              class="inline-flex items-center space-x-reverse space-x-2 text-brand font-semibold hover:text-brand-dark transition-colors"
+            >
               <span>اقرأ البيان</span>
               <Icon name="lucide:arrow-left" class="w-4 h-4" />
             </button>
@@ -68,25 +71,25 @@
 </template>
 
 <script setup>
-const globalData = useState("globalData")
+const globalData = useState("globalData");
 
 const statements = computed(() => {
   if (process.server || !globalData.value?.pressStatements?.items) {
-    return []
+    return [];
   }
-  
-  const pressStatements = globalData.value.pressStatements.items
-  return pressStatements.map(statement => ({
+
+  const pressStatements = globalData.value.pressStatements.items;
+  return pressStatements.map((statement) => ({
     id: statement._id,
-    title: statement.title || 'بيان بدون عنوان',
-    excerpt: statement.excerpt || 'محتوى البيان غير متوفر',
+    title: statement.title || "بيان بدون عنوان",
+    excerpt: statement.excerpt || "محتوى البيان غير متوفر",
     date: statement.date,
-    priority: statement.categoryId?.name === 'عاجل' ? 'عاجل' : statement.categoryId?.name === 'مهم' ? 'مهم' : 'عادي',
-    views: Math.floor(Math.random() * 3000) + 1000 // قيمة افتراضية للمشاهدات
-  }))
-})
+    priority: statement.category?.name,
+    views: Math.floor(Math.random() * 3000) + 1000, // قيمة افتراضية للمشاهدات
+  }));
+});
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('ar-EG')
-}
+  return new Date(dateString).toLocaleDateString("ar-EG");
+};
 </script>

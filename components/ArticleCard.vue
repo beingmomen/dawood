@@ -1,5 +1,7 @@
 <template>
-  <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in">
+  <article
+    class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in"
+  >
     <div class="relative">
       <img
         :src="article.image"
@@ -7,14 +9,18 @@
         class="w-full h-48 object-cover"
       />
       <div class="absolute top-4 right-4">
-        <span class="bg-brand text-white px-3 py-1 rounded-full text-sm font-medium">
-          {{ article.category }}
+        <span
+          class="bg-brand text-white px-3 py-1 rounded-full text-sm font-medium"
+        >
+          {{ article.category.name }}
         </span>
       </div>
     </div>
 
     <div class="p-6">
-      <h3 class="text-xl font-bold text-brand-dark mb-3 line-clamp-2 hover:text-brand transition-colors">
+      <h3
+        class="text-xl font-bold text-brand-dark mb-3 line-clamp-2 hover:text-brand transition-colors"
+      >
         {{ article.title }}
       </h3>
 
@@ -48,15 +54,15 @@
 defineProps({
   article: {
     type: Object,
-    required: true
+    required: true,
   },
   index: {
     type: Number,
-    default: 0
-  }
-})
+    default: 0,
+  },
+});
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('ar-EG')
-}
+  return new Date(dateString).toLocaleDateString("ar-EG");
+};
 </script>

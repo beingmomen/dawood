@@ -1,31 +1,40 @@
 <template>
-  <div class="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
+  <div dir="rtl" class="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
     <div class="text-center mb-6">
       <img
-        :src="personalInfo?.image || 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'"
+        :src="
+          personalInfo?.image ||
+          'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'
+        "
         :alt="personalInfo?.name || 'محمد عبدالعليم داود'"
         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
       />
       <h3 class="text-xl font-bold text-brand-dark mb-2">
-        {{ personalInfo?.name || 'محمد عبدالعليم داود' }}
+        {{ personalInfo?.name || "محمد عبدالعليم داود" }}
       </h3>
       <p class="text-gray-600">
-        {{ personalInfo?.title || 'صحفي وعضو برلمان' }}
+        {{ personalInfo?.title || "صحفي وعضو برلمان" }}
       </p>
     </div>
 
     <div class="space-y-4 mb-6">
       <div class="flex items-center space-x-reverse space-x-3">
         <Icon name="lucide:mail" class="w-5 h-5 text-brand" />
-        <span class="text-gray-700">{{ personalInfo?.email || 'mohammed.journalist@email.com' }}</span>
+        <span class="text-gray-700">{{
+          personalInfo?.email || "mohammed.journalist@email.com"
+        }}</span>
       </div>
       <div class="flex items-center space-x-reverse space-x-3">
         <Icon name="lucide:phone" class="w-5 h-5 text-brand" />
-        <span class="text-gray-700">{{ personalInfo?.phone || '+20 10 123 4567' }}</span>
+        <span class="text-gray-700">{{
+          personalInfo?.phone || "+20 10 123 4567"
+        }}</span>
       </div>
       <div class="flex items-center space-x-reverse space-x-3">
         <Icon name="lucide:map-pin" class="w-5 h-5 text-brand" />
-        <span class="text-gray-700">{{ personalInfo?.location || 'القاهرة، مصر' }}</span>
+        <span class="text-gray-700">{{
+          personalInfo?.location || "القاهرة، مصر"
+        }}</span>
       </div>
     </div>
 
@@ -52,6 +61,6 @@
 </template>
 
 <script setup>
-const globalData = useState('globalData')
-const personalInfo = computed(() => globalData.value?.personalInfo)
+const globalData = useState("globalData");
+const personalInfo = computed(() => globalData.value?.personalInfo.items[0]);
 </script>

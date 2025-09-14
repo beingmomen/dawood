@@ -15,19 +15,25 @@
       <div class="bg-white rounded-2xl p-8 shadow-lg mb-12">
         <div class="flex flex-col md:flex-row items-center gap-8">
           <img
-            :src="personalInfo?.image || 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'"
+            :src="
+              personalInfo?.image ||
+              'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'
+            "
             :alt="personalInfo?.name || 'محمد عبدالعليم داود'"
             class="w-32 h-32 rounded-full object-cover"
           />
           <div class="text-center md:text-right">
             <h2 class="text-3xl font-bold text-brand-dark mb-2">
-              {{ personalInfo?.name || 'محمد عبدالعليم داود' }}
+              {{ personalInfo?.name || "محمد عبدالعليم داود" }}
             </h2>
             <p class="text-xl text-gray-600 mb-4">
-              {{ personalInfo?.title || 'صحفي وعضو برلمان' }}
+              {{ personalInfo?.title || "صحفي وعضو برلمان" }}
             </p>
             <p class="text-gray-700 leading-relaxed">
-              {{ personalInfo?.summary || 'صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين' }}
+              {{
+                personalInfo?.summary ||
+                "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين"
+              }}
             </p>
           </div>
         </div>
@@ -43,12 +49,16 @@
           <div class="border-r-4 border-brand pr-6">
             <h4 class="text-xl font-bold text-brand-dark">عضو مجلس النواب</h4>
             <p class="text-gray-600 mb-2">2020 - حتى الآن</p>
-            <p class="text-gray-700">تمثيل الدائرة الانتخابية والعمل على خدمة المواطنين</p>
+            <p class="text-gray-700">
+              تمثيل الدائرة الانتخابية والعمل على خدمة المواطنين
+            </p>
           </div>
           <div class="border-r-4 border-brand pr-6">
             <h4 class="text-xl font-bold text-brand-dark">رئيس تحرير</h4>
             <p class="text-gray-600 mb-2">2015 - 2020</p>
-            <p class="text-gray-700">إدارة التحرير والإشراف على المحتوى الإعلامي</p>
+            <p class="text-gray-700">
+              إدارة التحرير والإشراف على المحتوى الإعلامي
+            </p>
           </div>
         </div>
       </div>
@@ -72,13 +82,16 @@
 </template>
 
 <script setup>
-const globalData = useState('globalData')
-const personalInfo = computed(() => globalData.value?.personalInfo)
+const globalData = useState("globalData");
+const personalInfo = computed(() => globalData.value?.personalInfo.items[0]);
 
 useHead({
-  title: 'السيرة الذاتية - محمد عبدالعليم داود',
+  title: "السيرة الذاتية - محمد عبدالعليم داود",
   meta: [
-    { name: 'description', content: 'السيرة الذاتية للصحفي وعضو البرلمان محمد عبدالعليم داود' }
-  ]
-})
+    {
+      name: "description",
+      content: "السيرة الذاتية للصحفي وعضو البرلمان محمد عبدالعليم داود",
+    },
+  ],
+});
 </script>

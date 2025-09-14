@@ -1,0 +1,35 @@
+{
+  "count": 1,
+  "items": [
+    {
+      "_id": "68c53fe15b75100de038c1e6",
+      "name": "محمد عبدالعليم داود",
+      "title": "صحفي",
+      "email": "dawood@gmail.com",
+      "phone": "01064053748",
+      "location": "القاهرة",
+      "summary": "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز",
+      "image": "https://res.cloudinary.com/dyqfclwdk/image/upload/v1757757408/dawood-demo/personal-info/s3wcvz0x501934nkvrp1.webp",
+      "youtubeLink": "https://www.youtube.com/@mohamedabdaleemdawood",
+      "facebookLink": "https://www.facebook.com/md.abdelaleem/",
+      "experience": [
+        {
+          "company": "Nanosoft",
+          "position": "",
+          "current": false,
+          "description": "",
+          "location": "",
+          "_id": "68c53fe15b75100de038c1e7",
+          "startDate": "2024-12-31T22:00:00.000Z",
+          "endDate": "2025-12-30T22:00:00.000Z"
+        }
+      ],
+      "education": [],
+      "createdAt": "2025-09-13T09:56:49.029Z",
+      "updatedAt": "2025-09-13T09:56:49.029Z",
+      "slug": "محمد-عبدالعليم-داود",
+      "original_slug": "محمد-عبدالعليم-داود",
+      "documentNumber": 21
+    }
+  ]
+}

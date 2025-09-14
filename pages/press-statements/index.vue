@@ -88,11 +88,12 @@
               {{ statement.excerpt }}
             </p>
 
-            <button
-              class="w-full bg-brand text-white py-3 rounded-lg font-semibold hover:bg-brand-dark transition-colors"
+            <NuxtLink
+              :to="`/press-statements/${statement.id}`"
+              class="w-full bg-brand text-white py-3 rounded-lg font-semibold hover:bg-brand-dark transition-colors block text-center"
             >
               اقرأ البيان كاملاً
-            </button>
+            </NuxtLink>
           </article>
         </div>
 

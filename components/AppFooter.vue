@@ -6,15 +6,18 @@
         <div class="lg:col-span-2">
           <div class="mb-6">
             <h3 class="text-2xl font-bold mb-2">
-              {{ personalInfo?.name || 'محمد عبدالعليم داود' }}
+              {{ personalInfo?.name || "محمد عبدالعليم داود" }}
             </h3>
             <p class="text-white/80">
-              {{ personalInfo?.title || 'صحفي وعضو برلمان' }}
+              {{ personalInfo?.title || "صحفي وعضو برلمان" }}
             </p>
           </div>
 
           <p class="text-white/80 leading-relaxed mb-6 max-w-md">
-            {{ personalInfo?.summary || 'صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز.' }}
+            {{
+              personalInfo?.summary ||
+              "صحفي محترف وعضو برلمان ملتزم بخدمة الوطن والمواطنين، أسعى لتحقيق العدالة الاجتماعية والتنمية المستدامة من خلال العمل الصحفي والبرلماني المتميز."
+            }}
           </p>
 
           <!-- Contact Info -->
@@ -22,19 +25,19 @@
             <div class="flex items-center space-x-reverse space-x-3">
               <Icon name="lucide:mail" class="w-5 h-5 text-white/60" />
               <span class="text-white/80">
-                {{ personalInfo?.email || 'mohammed.journalist@email.com' }}
+                {{ personalInfo?.email || "mohammed.journalist@email.com" }}
               </span>
             </div>
             <div class="flex items-center space-x-reverse space-x-3">
               <Icon name="lucide:phone" class="w-5 h-5 text-white/60" />
               <span class="text-white/80">
-                {{ personalInfo?.phone || '+20 10 123 4567' }}
+                {{ personalInfo?.phone || "+20 10 123 4567" }}
               </span>
             </div>
             <div class="flex items-center space-x-reverse space-x-3">
               <Icon name="lucide:map-pin" class="w-5 h-5 text-white/60" />
               <span class="text-white/80">
-                {{ personalInfo?.location || 'القاهرة، جمهورية مصر العربية' }}
+                {{ personalInfo?.location || "القاهرة، جمهورية مصر العربية" }}
               </span>
             </div>
           </div>
@@ -90,9 +93,12 @@
 
       <!-- Bottom Bar -->
       <div class="border-t border-white/20 mt-12 pt-8 text-center">
-        <p class="text-white/60 flex items-center justify-center space-x-reverse space-x-2">
+        <p
+          class="text-white/60 flex items-center justify-center space-x-reverse space-x-2"
+        >
           <span>
-            © {{ new Date().getFullYear() }} محمد عبدالعليم داود. جميع الحقوق محفوظة. صُنع بـ
+            © {{ new Date().getFullYear() }} محمد عبدالعليم داود. جميع الحقوق
+            محفوظة. صُنع بـ
           </span>
           <Icon name="lucide:heart" class="w-4 h-4 text-red-400" />
           <span>في جمهورية مصر العربية</span>
@@ -103,33 +109,33 @@
 </template>
 
 <script setup>
-const globalData = useState('globalData')
-const personalInfo = computed(() => globalData.value?.personalInfo)
+const globalData = useState("globalData");
+const personalInfo = computed(() => globalData.value?.personalInfo.items[0]);
 
 const socialLinks = computed(() => [
   {
-    icon: 'lucide:facebook',
-    href: personalInfo?.facebookLink || '#',
-    label: 'فيسبوك',
+    icon: "lucide:facebook",
+    href: personalInfo.value?.facebookLink || "#",
+    label: "فيسبوك",
   },
   {
-    icon: 'lucide:youtube',
-    href: personalInfo?.youtubeLink || '#',
-    label: 'يوتيوب',
+    icon: "lucide:youtube",
+    href: personalInfo.value?.youtubeLink || "#",
+    label: "يوتيوب",
   },
-])
+]);
 
 const quickLinks = [
-  { name: 'الرئيسية', href: '/' },
-  { name: 'المقالات', href: '/articles' },
-  { name: 'السيرة الذاتية', href: '/cv' },
-  { name: 'الوسائط', href: '/media' },
-  { name: 'البيانات الصحفية', href: '/press-statements' },
-]
+  { name: "الرئيسية", href: "/" },
+  { name: "المقالات", href: "/articles" },
+  { name: "السيرة الذاتية", href: "/cv" },
+  { name: "الوسائط", href: "/media" },
+  { name: "البيانات الصحفية", href: "/press-statements" },
+];
 
 const legalLinks = [
-  { name: 'سياسة الخصوصية', href: '/privacy-policy' },
-  { name: 'شروط الاستخدام', href: '/terms-of-service' },
-  { name: 'إخلاء المسؤولية', href: '/disclaimer' },
-]
+  { name: "سياسة الخصوصية", href: "/privacy-policy" },
+  { name: "شروط الاستخدام", href: "/terms-of-service" },
+  { name: "إخلاء المسؤولية", href: "/disclaimer" },
+];
 </script>

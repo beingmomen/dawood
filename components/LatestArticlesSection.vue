@@ -83,13 +83,25 @@
 </template>
 
 <script setup>
-// Fetch latest articles
-const { data: articlesData, pending } = await $fetch('/api/articles', {
-  query: { limit: 6 },
-  server: false
-})
+// Fetch latest articles from global state
+const globalData = useState('globalData')
+const pending = ref(false)
 
-const articles = computed(() => articlesData?.data || [])
+const articles = computed(() => {
+  const articlesData = globalData.value?.articles?.items
+  if (!Array.isArray(articlesData)) return []
+  
+  // Map API data to component format
+  return articlesData.slice(0, 6).map(article => ({
+    id: article._id,
+    title: article.title,
+    excerpt: article.description,
+    image: article.image,
+    date: article.date,
+    category: article.categoryId?.name || 'عام',
+    readTime: '5 دقائق' // Default read time
+  }))
+})
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ar-EG')

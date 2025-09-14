@@ -1,14 +1,11 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
-  future: {
-    compatibilityVersion: 4,
-  },
   devtools: { enabled: true },
   modules: [
-    "@nuxtjs/tailwindcss", 
-    "@pinia/nuxt", 
-    "@nuxtjs/google-fonts", 
-    "@nuxt/icon"
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
+    "@nuxtjs/google-fonts",
+    "@nuxt/icon",
   ],
   css: ["~/assets/css/main.css"],
   googleFonts: {
@@ -36,9 +33,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl:
-        process.env.VITE_API_BASE_URL ||
-        "https://dawood-api.beingmomen.com/api/v1",
+      apiBaseUrl: process.env.BASE_URL,
     },
   },
 });

@@ -147,10 +147,20 @@
 const route = useRoute()
 const { id } = route.params
 
-// Fetch article data
-const { data: article, pending, error } = await $fetch(`/api/articles/${id}`, {
-  server: false
+// Fetch article data from global state
+const globalData = useState('globalData')
+const pending = ref(false)
+const error = ref(null)
+
+const article = computed(() => {
+  const articles = globalData.value?.articles || []
+  return articles.find(a => a.id === id || a.id === parseInt(id))
 })
+
+// Set error if article not found
+if (!article.value) {
+  error.value = { message: 'المقال غير موجود' }
+}
 
 // Format date helper
 const formatDate = (dateString) => {

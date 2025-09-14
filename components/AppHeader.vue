@@ -69,7 +69,8 @@
 
 <script setup>
 const route = useRoute()
-const { data: personalInfo } = await $fetch('/api/personal-info', { server: false })
+const globalData = useState('globalData')
+const personalInfo = computed(() => globalData.value?.personalInfo)
 
 // State
 const isMenuOpen = ref(false)

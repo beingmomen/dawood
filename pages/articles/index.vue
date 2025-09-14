@@ -93,6 +93,8 @@
 </template>
 
 <script setup>
+import { useDebounceFn } from '@vueuse/core'
+
 const route = useRoute()
 const router = useRouter()
 
@@ -100,22 +102,42 @@ const router = useRouter()
 const searchTerm = ref('')
 const currentPage = ref(parseInt(route.query.page) || 1)
 
-// API call
-const { data: articlesData, pending, error, refresh } = await $fetch('/api/articles', {
-  query: {
-    page: currentPage.value,
-    limit: 12,
-    search: searchTerm.value || undefined
-  },
-  server: false
-})
+// Global data
+const globalData = useState('globalData')
+const pending = ref(false)
+const error = ref(null)
 
 // Computed properties
-const articles = computed(() => articlesData?.data || [])
-const totalPages = computed(() => articlesData?.pagination?.totalPages || 1)
-const totalItems = computed(() => articlesData?.pagination?.totalItems || 0)
-const hasNext = computed(() => articlesData?.pagination?.hasNext || false)
-const hasPrev = computed(() => articlesData?.pagination?.hasPrev || false)
+const allArticles = computed(() => globalData.value?.articles || [])
+const filteredArticles = computed(() => {
+  const articles = allArticles.value
+  if (!Array.isArray(articles)) return []
+  if (!searchTerm.value) return articles
+  return articles.filter(article => 
+    article.title?.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+    article.excerpt?.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+})
+
+const itemsPerPage = 12
+const totalItems = computed(() => {
+  const filtered = filteredArticles.value
+  return Array.isArray(filtered) ? filtered.length : 0
+})
+const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage))
+const articles = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  const filtered = filteredArticles.value
+  if (!Array.isArray(filtered)) return []
+  return filtered.slice(start, end)
+})
+const hasNext = computed(() => currentPage.value < totalPages.value)
+const hasPrev = computed(() => currentPage.value > 1)
+
+const refresh = () => {
+  // Refresh logic if needed
+}
 
 // Methods
 const handlePageChange = (page) => {

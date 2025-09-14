@@ -40,7 +40,8 @@
 </template>
 
 <script setup>
-const { data: personalInfo } = await $fetch('/api/personal-info', { server: false })
+const globalData = useState('globalData')
+const personalInfo = computed(() => globalData.value?.personalInfo)
 
 const scrollToContact = () => {
   if (process.client) {

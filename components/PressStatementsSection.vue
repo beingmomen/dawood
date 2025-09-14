@@ -68,32 +68,23 @@
 </template>
 
 <script setup>
-const statements = ref([
-  {
-    id: 1,
-    title: 'بيان حول قانون الإعلام الجديد',
-    excerpt: 'نؤكد على أهمية تطوير قانون الإعلام بما يواكب التطورات التكنولوجية ويحافظ على حرية التعبير والرأي',
-    date: '2024-01-20',
-    priority: 'عاجل',
-    views: '2,450'
-  },
-  {
-    id: 2,
-    title: 'تصريح حول الأوضاع الاقتصادية',
-    excerpt: 'نتابع بعناية التطورات الاقتصادية ونعمل على تقديم الحلول المناسبة لدعم المواطنين',
-    date: '2024-01-18',
-    priority: 'مهم',
-    views: '1,890'
-  },
-  {
-    id: 3,
-    title: 'بيان حول التعليم الرقمي',
-    excerpt: 'ندعو إلى تطوير منظومة التعليم الرقمي وتوفير الأدوات اللازمة للطلاب والمعلمين',
-    date: '2024-01-15',
-    priority: 'عادي',
-    views: '1,234'
+const globalData = useState("globalData")
+
+const statements = computed(() => {
+  if (process.server || !globalData.value?.pressStatements?.items) {
+    return []
   }
-])
+  
+  const pressStatements = globalData.value.pressStatements.items
+  return pressStatements.map(statement => ({
+    id: statement._id,
+    title: statement.title || 'بيان بدون عنوان',
+    excerpt: statement.excerpt || 'محتوى البيان غير متوفر',
+    date: statement.date,
+    priority: statement.categoryId?.name === 'عاجل' ? 'عاجل' : statement.categoryId?.name === 'مهم' ? 'مهم' : 'عادي',
+    views: Math.floor(Math.random() * 3000) + 1000 // قيمة افتراضية للمشاهدات
+  }))
+})
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ar-EG')

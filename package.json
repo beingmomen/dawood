@@ -24,6 +24,8 @@
   "dependencies": {
     "@nuxt/icon": "^1.5.5",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/robots": "^4.1.7",
+    "@nuxtjs/sitemap": "^6.1.1",
     "@pinia/nuxt": "^0.5.5",
     "@vueuse/core": "^13.9.0",
     "pinia": "^2.2.6"

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nuxt.com)",
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(pnpm dev:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -8,14 +8,18 @@
     "dev": "nuxt dev --open",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.67",
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@types/node": "^24.4.0",
-    "nuxt": "^4.1.1"
+    "nuxt": "^4.1.1",
+    "vue-tsc": "^3.0.7"
   },
   "dependencies": {
     "@nuxt/icon": "^1.5.5",

@@ -1,5 +1,16 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
+  future: {
+    compatibilityVersion: 4,
+  },
+  experimental: {
+    sharedPrerenderData: false,
+    defaults: {
+      useAsyncData: {
+        deep: true
+      }
+    }
+  },
   devtools: { enabled: true },
   modules: [
     "@nuxtjs/tailwindcss",
@@ -35,5 +46,8 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: process.env.BASE_URL,
     },
+  },
+  typescript: {
+    typeCheck: false
   },
 });

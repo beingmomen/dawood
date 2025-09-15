@@ -1,10 +1,8 @@
 export const useData = () => {
-  // Get globally stored data instead of making API calls
   const globalData = useState("globalData");
   const config = useRuntimeConfig();
 
   const fetchAllData = async () => {
-    // Return the globally stored data
     return globalData.value;
   };
 

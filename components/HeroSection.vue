@@ -64,7 +64,7 @@ const globalData = useState("globalData");
 const personalInfo = computed(() => globalData.value?.personalInfo.items[0]);
 
 const scrollToContact = () => {
-  if (process.client) {
+  if (import.meta.client) {
     const element = document.getElementById("contact");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });

@@ -40,12 +40,6 @@
           </p>
 
           <div class="flex items-center justify-between">
-            <div
-              class="flex items-center space-x-reverse space-x-2 text-gray-500 text-sm hide-press-stats"
-            >
-              <Icon name="lucide:eye" class="w-4 h-4" />
-              <span>{{ statement.views }} مشاهدة</span>
-            </div>
             <button
               class="inline-flex items-center space-x-reverse space-x-2 text-brand font-semibold hover:text-brand-dark transition-colors"
             >
@@ -74,7 +68,7 @@
 const globalData = useState("globalData");
 
 const statements = computed(() => {
-  if (process.server || !globalData.value?.pressStatements?.items) {
+  if (!globalData.value?.pressStatements?.items) {
     return [];
   }
 

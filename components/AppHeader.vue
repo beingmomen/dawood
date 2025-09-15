@@ -157,13 +157,13 @@ const handleScroll = () => {
 
 // Lifecycle
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     window.addEventListener("scroll", handleScroll);
   }
 });
 
 onUnmounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     window.removeEventListener("scroll", handleScroll);
   }
 });

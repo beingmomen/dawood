@@ -149,7 +149,7 @@
             <p class="text-gray-600">لا توجد مستندات متاحة حالياً</p>
           </div>
         </div>
-        
+
         <!-- View All Button -->
         <div class="text-center mt-12">
           <NuxtLink
@@ -170,10 +170,7 @@ const globalData = useState("globalData");
 const activeTab = ref("images");
 
 // التأكد من أن البيانات متاحة
-const isDataLoaded = computed(() => {
-  if (process.server) return false;
-  return globalData.value && globalData.value.media;
-});
+const isDataLoaded = computed(() => globalData.value && globalData.value.media);
 
 const tabs = [
   { id: "images", name: "الصور", icon: "lucide:image" },
@@ -182,7 +179,7 @@ const tabs = [
 ];
 
 const images = computed(() => {
-  if (process.server || !globalData.value?.media?.items) return [];
+  if (!globalData.value?.media?.items) return [];
   const mediaItems = globalData.value.media.items;
   return mediaItems
     .filter((item) => item.type === "image")
@@ -194,7 +191,7 @@ const images = computed(() => {
 });
 
 const videos = computed(() => {
-  if (process.server || !globalData.value?.media?.items) return [];
+  if (!globalData.value?.media?.items) return [];
   const mediaItems = globalData.value.media.items;
   return mediaItems
     .filter((item) => item.type === "video")
@@ -207,7 +204,7 @@ const videos = computed(() => {
 });
 
 const documents = computed(() => {
-  if (process.server || !globalData.value?.media?.items) return [];
+  if (!globalData.value?.media?.items) return [];
   const mediaItems = globalData.value.media.items;
   return mediaItems
     .filter((item) => item.type === "document")

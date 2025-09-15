@@ -19,30 +19,30 @@
 </template>
 
 <script setup>
-const showButton = ref(false)
+const showButton = ref(false);
 
 const scrollToTop = () => {
-  if (process.client) {
+  if (import.meta.client) {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
   }
-}
+};
 
 const handleScroll = () => {
-  showButton.value = window.scrollY > 300
-}
+  showButton.value = window.scrollY > 300;
+};
 
 onMounted(() => {
-  if (process.client) {
-    window.addEventListener('scroll', handleScroll)
+  if (import.meta.client) {
+    window.addEventListener("scroll", handleScroll);
   }
-})
+});
 
 onUnmounted(() => {
-  if (process.client) {
-    window.removeEventListener('scroll', handleScroll)
+  if (import.meta.client) {
+    window.removeEventListener("scroll", handleScroll);
   }
-})
+});
 </script>

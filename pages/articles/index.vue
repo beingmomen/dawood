@@ -179,7 +179,7 @@ const handlePageChange = (page) => {
     query.search = searchTerm.value;
   }
   router.push({ query });
-  if (process.client) {
+  if (import.meta.client) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };

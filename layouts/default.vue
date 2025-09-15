@@ -11,11 +11,14 @@
 
 <script setup>
 // Scroll to top on route change
-const route = useRoute()
+const route = useRoute();
 
-watch(() => route.path, () => {
-  if (process.client) {
-    window.scrollTo(0, 0)
+watch(
+  () => route.path,
+  () => {
+    if (import.meta.client) {
+      window.scrollTo(0, 0);
+    }
   }
-})
+);
 </script>

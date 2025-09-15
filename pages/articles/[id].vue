@@ -152,7 +152,7 @@ const route = useRoute()
 const { id } = route.params
 
 // Fetch article data directly from external API
-const { data: articleResponse, pending, error } = await useFetch(`https://demo-api.abdaleemdawood.com/api/v1/articles/${id}`)
+const { data: articleResponse, pending, error } = await useAPI(`/articles/${id}`)
 
 const article = computed(() => {
   if (articleResponse.value?.status === 'success') {

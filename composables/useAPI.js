@@ -1,8 +1,9 @@
-export function useAPI(url, opts = {}) {
-  const { api } = useNuxtApp();
-
+export function useAPI(
+  url,
+  options = {}
+) {
   return useFetch(url, {
-    ...opts,
-    $fetch: api
-  });
+    ...options,
+    $fetch: useNuxtApp().$api
+  })
 }

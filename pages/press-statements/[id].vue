@@ -175,8 +175,8 @@ const {
   pending,
   error,
   refresh,
-} = await useFetch(
-  `https://demo-api.abdaleemdawood.com/api/v1/press-statements/${id}`
+} = await useAPI(
+  `/press-statements/${id}`
 );
 
 // Extract statement from nested data structure

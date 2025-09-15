@@ -173,7 +173,7 @@ const {
   pending,
   error,
   refresh,
-} = await useFetch("https://demo-api.abdaleemdawood.com/api/v1/media/all", {
+} = await useAPI("/media/all", {
   server: true,
   client: true,
   default: () => []

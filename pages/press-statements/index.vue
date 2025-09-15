@@ -172,18 +172,22 @@ const fetchStatements = async () => {
       params.search = searchTerm.value;
     }
 
-    const response = await $fetch(
-      "https://demo-api.abdaleemdawood.com/api/v1/press-statements",
+    const { data: response, error: fetchError } = await useAPI(
+      "/press-statements",
       {
         query: params,
       }
     );
 
+    if (fetchError.value) {
+      throw fetchError.value;
+    }
+
     // Transform response to match expected structure
     apiResponse.value = {
-      ...response,
-      totalPages: Math.ceil(response.total / 12),
-      hasNext: currentPage.value < Math.ceil(response.total / 12),
+      ...response.value,
+      totalPages: Math.ceil(response.value.total / 12),
+      hasNext: currentPage.value < Math.ceil(response.value.total / 12),
       hasPrev: currentPage.value > 1,
     };
   } catch (err) {

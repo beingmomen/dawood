@@ -113,28 +113,45 @@ import { useDebounceFn } from "@vueuse/core";
 
 const route = useRoute();
 const router = useRouter();
+const { $api } = useNuxtApp();
 
 // Reactive state
 const searchTerm = ref("");
 const currentPage = ref(parseInt(route.query.page) || 1);
-const pending = ref(false);
-const error = ref(null);
-const apiResponse = ref(null);
 
-console.warn("apiResponse", apiResponse.value);
+// Computed query params for API call
+const queryParams = computed(() => {
+  const params = {
+    page: currentPage.value,
+    limit: 12,
+  };
+  
+  if (searchTerm.value) {
+    params.search = searchTerm.value;
+  }
+  
+  return params;
+});
+
+// Use useAPI directly in setup
+const { data: apiResponse, pending, error, refresh } = await useAPI(
+  "/articles",
+  {
+    query: queryParams,
+    watch: [queryParams]
+  }
+);
+
 // Computed properties from API response
 const articles = computed(() => apiResponse.value?.data || []);
 const totalItems = computed(() => apiResponse.value?.total || 0);
-const totalPages = computed(() => apiResponse.value?.totalPages || 0);
-const hasNext = computed(() => apiResponse.value?.hasNext || false);
-const hasPrev = computed(() => apiResponse.value?.hasPrev || false);
+const totalPages = computed(() => Math.ceil((apiResponse.value?.total || 0) / 12));
+const hasNext = computed(() => currentPage.value < totalPages.value);
+const hasPrev = computed(() => currentPage.value > 1);
 
-// Fetch articles using useAPI
+// Function to manually fetch using $api when needed
 const fetchArticles = async () => {
   try {
-    pending.value = true;
-    error.value = null;
-
     const params = {
       page: currentPage.value,
       limit: 12,
@@ -144,31 +161,15 @@ const fetchArticles = async () => {
       params.search = searchTerm.value;
     }
 
-    const { data: response, error: fetchError } = await useAPI("/articles", {
+    const response = await $api("/articles", {
       query: params,
     });
 
-    if (fetchError.value) {
-      throw fetchError.value;
-    }
-
-    // Transform response to match expected structure
-    apiResponse.value = {
-      ...response.value,
-      totalPages: Math.ceil(response.value.total / 12),
-      hasNext: currentPage.value < Math.ceil(response.value.total / 12),
-      hasPrev: currentPage.value > 1,
-    };
+    return response;
   } catch (err) {
-    error.value = err;
     console.error("Error fetching articles:", err);
-  } finally {
-    pending.value = false;
+    throw err;
   }
-};
-
-const refresh = () => {
-  fetchArticles();
 };
 
 // Methods
@@ -188,7 +189,6 @@ const clearSearch = () => {
   searchTerm.value = "";
   currentPage.value = 1;
   router.push({ query: {} });
-  fetchArticles();
 };
 
 // Debounced search
@@ -199,7 +199,6 @@ const debouncedSearch = useDebounceFn(() => {
     query.search = searchTerm.value;
   }
   router.push({ query });
-  fetchArticles();
 }, 300);
 
 // Watch for route changes
@@ -207,7 +206,6 @@ watch(
   () => route.query.page,
   (newPage) => {
     currentPage.value = parseInt(newPage) || 1;
-    fetchArticles();
   }
 );
 
@@ -223,7 +221,6 @@ watch(
 onMounted(() => {
   // Set search term from URL if present
   searchTerm.value = route.query.search || "";
-  fetchArticles();
 });
 
 // SEO

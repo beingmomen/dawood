@@ -142,27 +142,45 @@ import { useDebounceFn } from "@vueuse/core";
 
 const route = useRoute();
 const router = useRouter();
+const { $api } = useNuxtApp();
 
 // Reactive state
 const searchTerm = ref("");
 const currentPage = ref(parseInt(route.query.page) || 1);
-const pending = ref(false);
-const error = ref(null);
-const apiResponse = ref(null);
+
+// Computed query params for API call
+const queryParams = computed(() => {
+  const params = {
+    page: currentPage.value,
+    limit: 12,
+  };
+  
+  if (searchTerm.value) {
+    params.search = searchTerm.value;
+  }
+  
+  return params;
+});
+
+// Use useAPI directly in setup
+const { data: apiResponse, pending, error, refresh } = await useAPI(
+  "/press-statements",
+  {
+    query: queryParams,
+    watch: [queryParams]
+  }
+);
 
 // Computed properties from API response
 const statements = computed(() => apiResponse.value?.data || []);
 const totalItems = computed(() => apiResponse.value?.total || 0);
-const totalPages = computed(() => apiResponse.value?.totalPages || 0);
-const hasNext = computed(() => apiResponse.value?.hasNext || false);
-const hasPrev = computed(() => apiResponse.value?.hasPrev || false);
+const totalPages = computed(() => Math.ceil((apiResponse.value?.total || 0) / 12));
+const hasNext = computed(() => currentPage.value < totalPages.value);
+const hasPrev = computed(() => currentPage.value > 1);
 
-// Fetch press statements from external API
+// Function to manually fetch using $api when needed
 const fetchStatements = async () => {
   try {
-    pending.value = true;
-    error.value = null;
-
     const params = {
       page: currentPage.value,
       limit: 12,
@@ -172,34 +190,15 @@ const fetchStatements = async () => {
       params.search = searchTerm.value;
     }
 
-    const { data: response, error: fetchError } = await useAPI(
-      "/press-statements",
-      {
-        query: params,
-      }
-    );
+    const response = await $api("/press-statements", {
+      query: params,
+    });
 
-    if (fetchError.value) {
-      throw fetchError.value;
-    }
-
-    // Transform response to match expected structure
-    apiResponse.value = {
-      ...response.value,
-      totalPages: Math.ceil(response.value.total / 12),
-      hasNext: currentPage.value < Math.ceil(response.value.total / 12),
-      hasPrev: currentPage.value > 1,
-    };
+    return response;
   } catch (err) {
-    error.value = err;
     console.error("Error fetching press statements:", err);
-  } finally {
-    pending.value = false;
+    throw err;
   }
-};
-
-const refresh = () => {
-  fetchStatements();
 };
 
 // Methods
@@ -219,7 +218,6 @@ const clearSearch = () => {
   searchTerm.value = "";
   currentPage.value = 1;
   router.push({ query: {} });
-  fetchStatements();
 };
 
 // Debounced search
@@ -230,7 +228,6 @@ const debouncedSearch = useDebounceFn(() => {
     query.search = searchTerm.value;
   }
   router.push({ query });
-  fetchStatements();
 }, 300);
 
 // Watch for route changes
@@ -238,7 +235,6 @@ watch(
   () => route.query.page,
   (newPage) => {
     currentPage.value = parseInt(newPage) || 1;
-    fetchStatements();
   }
 );
 
@@ -250,12 +246,8 @@ watch(
   }
 );
 
-// Initialize data on mount
-onMounted(() => {
-  // Set search term from URL if present
-  searchTerm.value = route.query.search || "";
-  fetchStatements();
-});
+// Initialize search term from URL
+searchTerm.value = route.query.search || "";
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ar-EG");

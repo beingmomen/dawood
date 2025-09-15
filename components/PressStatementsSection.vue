@@ -40,12 +40,13 @@
           </p>
 
           <div class="flex items-center justify-between">
-            <button
+            <NuxtLink
+              :to="`/press-statements/${statement.id}`"
               class="inline-flex items-center space-x-reverse space-x-2 text-brand font-semibold hover:text-brand-dark transition-colors"
             >
               <span>اقرأ البيان</span>
               <Icon name="lucide:arrow-left" class="w-4 h-4" />
-            </button>
+            </NuxtLink>
           </div>
         </article>
       </div>

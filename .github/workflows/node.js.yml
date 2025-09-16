@@ -35,6 +35,7 @@ jobs:
         run: pnpm run build --if-present
 
       - run: pm2 startOrRestart ecosystem.config.cjs
+      # - run: pm2 startOrRestart ecosystem.config.cjs
 
   deploy-prod:
     runs-on: [self-hosted, prod]

@@ -28,6 +28,7 @@
     "@nuxtjs/sitemap": "^6.1.1",
     "@pinia/nuxt": "^0.5.5",
     "@vueuse/core": "^13.9.0",
+    "dotenv": "^17.2.2",
     "pinia": "^2.2.6"
   }
 }

@@ -31,8 +31,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: build project
-        run: pnpm build
+      - name: Build project
+        run: pnpm run build --if-present
+
+      - run: pm2 startOrRestart ecosystem.config.cjs
 
   deploy-prod:
     runs-on: [self-hosted, prod]

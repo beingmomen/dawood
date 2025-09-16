@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-// Initialize data fetching
-// const { globalData } = useData();
+// Access global data from state
+const globalData = useState("globalData");
 
 // SEO setup
 const { setSEO } = useSEO();

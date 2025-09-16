@@ -7,14 +7,14 @@
 </template>
 
 <script setup>
-// Initialize global data with server-side rendering
-// const { globalData, allData, pending, error } = useData();
-
+// Initialize global data state
 const globalData = useState("globalData", () => ({}));
 
+// Fetch global data once on app initialization
 const { data } = await useAPI("/data/all");
-globalData.value = data.value.data;
-// console.warn("data", data.value.data);
+if (data.value?.data) {
+  globalData.value = data.value.data;
+}
 
 // Enhanced SEO and meta tags
 useHead({
@@ -66,15 +66,7 @@ useHead({
   ],
 });
 
-// Error handling for failed data fetching
-if (import.meta.client) {
-  watch(error, (newError) => {
-    if (newError) {
-      console.error("Global data fetch error:", newError);
-      // You could show a toast notification here
-    }
-  });
-}
+// Error handling for failed data fetching would be handled by useAPI composable
 
 // JSON-LD structured data for SEO
 useJsonld(() => {

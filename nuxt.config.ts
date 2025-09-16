@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   // Core modules
   modules: [
-    "@nuxtjs/tailwindcss",
+    "@nuxt/ui",
     "@pinia/nuxt",
     "@nuxtjs/google-fonts",
     "@nuxt/icon",
@@ -85,21 +85,11 @@ export default defineNuxtConfig({
 
   // Build optimizations
   build: {
-    transpile: ["@headlessui/vue"],
+    transpile: [],
   },
 
   // Vite optimizations
   vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ["vue", "vue-router"],
-            ui: ["@headlessui/vue", "@heroicons/vue"],
-          },
-        },
-      },
-    },
     optimizeDeps: {
       include: ["vue", "vue-router", "@vueuse/core"],
     },

@@ -1,9 +1,11 @@
 <template>
-  <div class="min-h-screen bg-background font-arabic">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <UApp>
+    <div class="min-h-screen bg-background font-arabic">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </div>
+  </UApp>
 </template>
 
 <script setup>
@@ -28,7 +30,7 @@ useHead({
     { name: "format-detection", content: "telephone=no" },
     { name: "theme-color", content: "#1e40af" },
     { name: "msapplication-TileColor", content: "#1e40af" },
-    { name: "apple-mobile-web-app-capable", content: "yes" },
+    { name: "mobile-web-app-capable", content: "yes" },
     { name: "apple-mobile-web-app-status-bar-style", content: "default" },
   ],
   link: [

@@ -92,7 +92,7 @@
 
                 <!-- Content -->
                 <div
-                  class="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+                  class="prose prose-lg max-w-none leading-relaxed"
                   v-html="statement.content || statement.excerpt"
                 />
 
@@ -228,38 +228,3 @@ useHead({
 });
 </script>
 
-<style scoped>
-.prose {
-  @apply text-gray-800;
-}
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  @apply text-brand-dark font-bold;
-}
-
-.prose p {
-  @apply mb-4 leading-relaxed;
-}
-
-.prose ul,
-.prose ol {
-  @apply mr-6 mb-4;
-}
-
-.prose li {
-  @apply mb-2;
-}
-
-.prose blockquote {
-  @apply border-r-4 border-brand pr-4 italic text-gray-600;
-}
-
-.prose a {
-  @apply text-brand hover:text-brand-dark transition-colors;
-}
-</style>

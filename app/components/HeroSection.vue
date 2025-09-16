@@ -43,6 +43,7 @@
           <button
             @click="scrollToContact"
             class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-brand transition-all duration-300 transform hover:scale-105"
+            aria-label="تواصل مع محمد عبدالعليم داود"
           >
             تواصل معي
           </button>

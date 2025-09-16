@@ -1,13 +1,16 @@
 <template>
   <div dir="rtl" class="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
     <div class="text-center mb-6">
-      <img
+      <NuxtImg
         :src="
           personalInfo?.image ||
           'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'
         "
         :alt="personalInfo?.name || 'محمد عبدالعليم داود'"
         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+        loading="lazy"
+        width="96"
+        height="96"
       />
       <h3 class="text-xl font-bold text-brand-dark mb-2">
         {{ personalInfo?.name || "محمد عبدالعليم داود" }}

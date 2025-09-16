@@ -6,7 +6,10 @@
       "Bash(mkdir:*)",
       "Bash(mv:*)",
       "Bash(rmdir:*)",
-      "Bash(pnpm dev:*)"
+      "Bash(pnpm dev:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm run:*)"
     ],
     "deny": [],
     "ask": []

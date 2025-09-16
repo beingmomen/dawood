@@ -206,7 +206,14 @@ const copyLink = async () => {
     await navigator.clipboard.writeText(window.location.href);
     alert("تم نسخ الرابط بنجاح!");
   } catch (err) {
-    console.error("Failed to copy link:", err);
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = window.location.href;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    alert("تم نسخ الرابط بنجاح!");
   }
 };
 

@@ -124,7 +124,7 @@ export const usePerformance = () => {
         const start = performance.now()
         const result = await fn(...args)
         const end = performance.now()
-        console.log(`${name} took ${end - start} milliseconds`)
+        // Performance: ${name} took ${end - start}ms (remove console.log for production)
         return result
       }
       return fn(...args)

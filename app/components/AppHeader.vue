@@ -31,6 +31,8 @@
           @click="toggleMobileMenu"
           :class="mobileButtonClasses"
           class="md:hidden p-2 rounded-lg transition-colors duration-300"
+          :aria-label="isMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'"
+          aria-expanded="false"
         >
           <Icon v-if="!isMenuOpen" name="lucide:menu" class="w-6 h-6" />
           <Icon v-else name="lucide:x" class="w-6 h-6" />

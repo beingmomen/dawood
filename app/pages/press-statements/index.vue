@@ -196,8 +196,11 @@ const fetchStatements = async () => {
 
     return response;
   } catch (err) {
-    console.error("Error fetching press statements:", err);
-    throw err;
+    // Handle error appropriately for production
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'فشل في تحميل البيانات الصحفية'
+    });
   }
 };
 

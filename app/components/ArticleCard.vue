@@ -3,10 +3,12 @@
     class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in"
   >
     <div class="relative">
-      <img
+      <NuxtImg
         :src="article.image"
         :alt="article.title"
         class="w-full h-48 object-cover"
+        loading="lazy"
+        sizes="sm:100vw md:50vw lg:33vw"
       />
       <div class="absolute top-4 right-4">
         <span

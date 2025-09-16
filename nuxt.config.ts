@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     },
     payloadExtraction: false, // Improve hydration performance
     viewTransition: true, // Enable view transitions
+    inlineSSRStyles: false, // Let CSS be external to avoid render blocking
   },
 
   // Enable development tools
@@ -27,21 +28,22 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
+    "@nuxt/image",
   ],
 
   // Global CSS
   css: ["~/assets/css/main.css"],
 
   // Font optimization
-  // googleFonts: {
-  //   families: {
-  //     Tajawal: [300, 400, 500, 700],
-  //   },
-  //   display: 'swap', // Improve font loading performance
-  //   preload: true,
-  //   download: true, // Download fonts to serve locally
-  //   inject: true
-  // },
+  googleFonts: {
+    families: {
+      Tajawal: [300, 400, 500, 700],
+    },
+    display: 'swap', // Improve font loading performance
+    preload: true,
+    download: true, // Download fonts to serve locally
+    inject: false // Inject manually to control loading
+  },
 
   // SEO and PWA configuration
   app: {
@@ -66,6 +68,9 @@ export default defineNuxtConfig({
       link: [
         { rel: "icon", type: "image/x-icon", href: "/logo.webp" },
         { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
+        { rel: "preload", href: "https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap", as: "style", onload: "this.onload=null;this.rel='stylesheet'" },
       ],
     },
   },
@@ -86,6 +91,23 @@ export default defineNuxtConfig({
   // Build optimizations
   build: {
     transpile: [],
+    analyze: false, // Set to true to analyze bundle
+  },
+
+  // Image optimization
+  image: {
+    provider: 'ipx',
+    quality: 80,
+    format: ['webp', 'jpg'],
+    densities: [1, 2],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536
+    }
   },
 
   // Vite optimizations
@@ -93,11 +115,22 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ["vue", "vue-router", "@vueuse/core"],
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['vue', 'vue-router'],
+            utils: ['@vueuse/core']
+          }
+        }
+      }
+    }
   },
 
   // Nitro optimizations for SSR
   nitro: {
     compressPublicAssets: true,
+    minify: true,
     prerender: {
       crawlLinks: true,
       routes: [
@@ -111,6 +144,12 @@ export default defineNuxtConfig({
         "/disclaimer",
       ],
     },
+    storage: {
+      redis: {
+        driver: 'redis',
+        // Add redis config if needed for caching
+      }
+    }
   },
 
   // Site configuration for SEO modules

@@ -17,11 +17,14 @@
     "@iconify-json/lucide": "^1.2.67",
     "@nuxt/devtools": "latest",
     "@types/node": "^24.4.0",
+    "eslint-plugin-vue": "^10.4.0",
     "nuxt": "^4.1.1",
+    "typescript-eslint": "^8.44.0",
     "vue-tsc": "^3.0.7"
   },
   "dependencies": {
     "@nuxt/icon": "^1.5.5",
+    "@nuxt/image": "^1.11.0",
     "@nuxt/ui": "^3.3.4",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/robots": "^4.1.7",

@@ -218,6 +218,6 @@ const documents = computed(() => {
 
 const openLightbox = (image) => {
   // يمكن إضافة lightbox هنا
-  console.log("Opening image:", image.title);
+  // Image clicked: implement lightbox functionality if needed
 };
 </script>

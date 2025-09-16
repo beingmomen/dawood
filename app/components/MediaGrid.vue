@@ -223,7 +223,7 @@ const formatDate = (dateString) => {
 
 const openLightbox = (image) => {
   // TODO: Implement lightbox functionality
-  console.log("Opening image:", image.title);
+  // Image clicked: implement lightbox if needed
 };
 </script>
 

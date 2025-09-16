@@ -10,6 +10,7 @@
           ? 'bg-brand text-white hover:bg-brand-dark'
           : 'bg-gray-200 text-gray-400 cursor-not-allowed',
       ]"
+      aria-label="الصفحة السابقة"
     >
       <Icon name="lucide:chevron-right" class="w-5 h-5" />
       <span>السابق</span>
@@ -27,6 +28,8 @@
               ? 'bg-brand text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
           ]"
+          :aria-label="`الصفحة ${page}`"
+          :aria-current="page === currentPage ? 'page' : undefined"
         >
           {{ page }}
         </button>
@@ -44,6 +47,7 @@
           ? 'bg-brand text-white hover:bg-brand-dark'
           : 'bg-gray-200 text-gray-400 cursor-not-allowed',
       ]"
+      aria-label="الصفحة التالية"
     >
       <span>التالي</span>
       <Icon name="lucide:chevron-left" class="w-5 h-5" />

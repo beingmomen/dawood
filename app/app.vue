@@ -8,7 +8,13 @@
 
 <script setup>
 // Initialize global data with server-side rendering
-const { globalData, allData, pending, error } = useData();
+// const { globalData, allData, pending, error } = useData();
+
+const globalData = useState("globalData", () => ({}));
+
+const { data } = await useAPI("/data/all");
+globalData.value = data.value.data;
+// console.warn("data", data.value.data);
 
 // Enhanced SEO and meta tags
 useHead({
@@ -55,13 +61,6 @@ watchEffect(() => {
 // Performance optimization: Preload critical resources
 useHead({
   link: [
-    {
-      rel: "preload",
-      href: "/fonts/tajawal.woff2",
-      as: "font",
-      type: "font/woff2",
-      crossorigin: "",
-    },
     { rel: "dns-prefetch", href: "//fonts.googleapis.com" },
     { rel: "preconnect", href: "//fonts.gstatic.com", crossorigin: "" },
   ],

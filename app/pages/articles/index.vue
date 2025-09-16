@@ -125,52 +125,33 @@ const queryParams = computed(() => {
     page: currentPage.value,
     limit: 12,
   };
-  
+
   if (searchTerm.value) {
     params.search = searchTerm.value;
   }
-  
+
   return params;
 });
 
 // Use useAPI directly in setup
-const { data: apiResponse, pending, error, refresh } = await useAPI(
-  "/articles",
-  {
-    query: queryParams,
-    watch: [queryParams]
-  }
-);
+const {
+  data: apiResponse,
+  pending,
+  error,
+  refresh,
+} = await useAPI("/articles", {
+  query: queryParams,
+  watch: [queryParams],
+});
 
 // Computed properties from API response
 const articles = computed(() => apiResponse.value?.data || []);
 const totalItems = computed(() => apiResponse.value?.total || 0);
-const totalPages = computed(() => Math.ceil((apiResponse.value?.total || 0) / 12));
+const totalPages = computed(() =>
+  Math.ceil((apiResponse.value?.total || 0) / 12)
+);
 const hasNext = computed(() => currentPage.value < totalPages.value);
 const hasPrev = computed(() => currentPage.value > 1);
-
-// Function to manually fetch using $api when needed
-const fetchArticles = async () => {
-  try {
-    const params = {
-      page: currentPage.value,
-      limit: 12,
-    };
-
-    if (searchTerm.value) {
-      params.search = searchTerm.value;
-    }
-
-    const response = await $api("/articles", {
-      query: params,
-    });
-
-    return response;
-  } catch (err) {
-    console.error("Error fetching articles:", err);
-    throw err;
-  }
-};
 
 // Methods
 const handlePageChange = (page) => {

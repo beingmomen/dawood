@@ -75,7 +75,7 @@
 <script setup>
 const route = useRoute();
 const globalData = useState("globalData");
-const personalInfo = computed(() => globalData.value?.personalInfo.items[0]);
+const personalInfo = computed(() => globalData.value?.personalInfo?.items[0]);
 
 // State
 const isMenuOpen = ref(false);
